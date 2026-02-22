@@ -1,0 +1,8 @@
+{
+  "name": "placement-readiness-platform",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "serve": "npx serve -p 8765 -s static"
+  }
+}
