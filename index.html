@@ -1,0 +1,2002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Placement Readiness Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: hsl(245, 58%, 51%);
+      --primary-dark: hsl(245, 58%, 42%);
+      --primary-light: hsl(245, 58%, 96%);
+      --accent: hsl(262, 83%, 58%);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #1a1a2e; -webkit-font-smoothing: antialiased; }
+
+    /* Landing Page */
+    #landing { min-height: 100vh; display: flex; flex-direction: column; background: linear-gradient(135deg, #f8f7ff 0%, #f0eeff 50%, #fff8f5 100%); }
+    .hero {
+      flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 4rem 1.5rem 6rem; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+      top: -200px; right: -200px; pointer-events: none;
+    }
+    .hero::after {
+      content: ''; position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, rgba(139, 92, 246, 0.06) 0%, transparent 70%);
+      bottom: -100px; left: -100px; pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: white;
+      border-radius: 2rem; font-size: 0.8rem; font-weight: 600; color: var(--primary); margin-bottom: 1.5rem;
+      box-shadow: 0 2px 12px rgba(99, 102, 241, 0.15); letter-spacing: 0.5px;
+    }
+    .hero h1 {
+      font-size: 3.25rem; font-weight: 800; color: #1a1a2e; margin-bottom: 1.25rem; line-height: 1.15;
+      letter-spacing: -0.02em; max-width: 700px;
+    }
+    .hero h1 span { background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { font-size: 1.25rem; color: #5a5a7a; margin-bottom: 2rem; max-width: 480px; line-height: 1.6; }
+    .hero .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; font-size: 1rem; font-weight: 600;
+      border-radius: 0.75rem; text-decoration: none; cursor: pointer; transition: all 0.2s ease;
+      background: var(--primary); color: white; border: none; box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+    }
+    .hero .btn:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45); }
+    .hero .btn:active { transform: translateY(0); }
+
+    .features { padding: 5rem 1.5rem; position: relative; }
+    .features-inner { max-width: 72rem; margin: 0 auto; }
+    .section-title { text-align: center; font-size: 2rem; font-weight: 700; color: #1a1a2e; margin-bottom: 3rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    @media (max-width: 900px) { .features-grid { grid-template-columns: 1fr; } }
+    .feature-card {
+      background: white; padding: 2rem; border-radius: 1rem; transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); border: 1px solid rgba(99, 102, 241, 0.08);
+    }
+    .feature-card:hover {
+      transform: translateY(-6px); box-shadow: 0 12px 40px rgba(99, 102, 241, 0.12);
+      border-color: rgba(99, 102, 241, 0.2);
+    }
+    .feature-icon {
+      width: 3.5rem; height: 3.5rem; border-radius: 1rem; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.25rem; background: linear-gradient(135deg, var(--primary-light) 0%, #f5f3ff 100%);
+    }
+    .feature-icon svg { width: 1.5rem; height: 1.5rem; color: var(--primary); }
+    .feature-card h3 { font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem; color: #1a1a2e; }
+    .feature-card p { color: #6b6b80; font-size: 0.95rem; line-height: 1.6; }
+
+    .footer {
+      padding: 1.5rem 1.5rem 2rem; text-align: center; color: #8b8b9e; font-size: 0.875rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    /* Dashboard */
+    #dashboard { display: none; min-height: 100vh; }
+    #dashboard.visible { display: flex; }
+    .sidebar {
+      width: 17rem; background: linear-gradient(180deg, #ffffff 0%, #fafaff 100%);
+      border-right: 1px solid #e8e8f0; display: flex; flex-direction: column;
+    }
+    .sidebar-title {
+      padding: 1.5rem 1.5rem 1.25rem; font-weight: 700; font-size: 1.125rem; color: #1a1a2e;
+    }
+    .sidebar-title span { color: var(--primary); }
+    .nav { flex: 1; padding: 1rem 0.75rem; }
+    .nav a {
+      display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; border-radius: 0.625rem;
+      text-decoration: none; color: #5a5a7a; font-size: 0.9rem; font-weight: 500; margin-bottom: 0.25rem;
+      transition: all 0.15s ease;
+    }
+    .nav a:hover { background: #f0eeff; color: var(--primary); }
+    .nav a.active { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3); }
+    .nav a svg { width: 1.2rem; height: 1.2rem; flex-shrink: 0; }
+    .main { flex: 1; display: flex; flex-direction: column; min-width: 0; background: #f8f9fc; }
+    .header {
+      height: 4rem; border-bottom: 1px solid #e8e8f0; display: flex; align-items: center;
+      justify-content: space-between; padding: 0 1.5rem; background: white;
+    }
+    .header h1 { font-size: 1.15rem; font-weight: 700; color: #1a1a2e; }
+    .avatar {
+      width: 2.5rem; height: 2.5rem; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .avatar svg { width: 1.25rem; height: 1.25rem; color: white; }
+    .content { flex: 1; padding: 2rem; overflow: auto; }
+    .content h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: #1a1a2e; }
+    .content p { color: #5a5a7a; line-height: 1.6; }
+    .page { display: none; }
+    .page.active { display: block; animation: fadeIn 0.3s ease; }
+    .dash-card { animation: slideUp 0.4s ease backwards; }
+    .dash-card:nth-child(1) { animation-delay: 0.05s; }
+    .dash-card:nth-child(2) { animation-delay: 0.1s; }
+    .dash-card:nth-child(3) { animation-delay: 0.15s; }
+    .dash-card:nth-child(4) { animation-delay: 0.2s; }
+    .dash-card:nth-child(5) { animation-delay: 0.25s; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .dashboard-welcome {
+      background: linear-gradient(135deg, white 0%, #fafaff 100%); border-radius: 1rem;
+      padding: 2rem; margin-bottom: 2rem; border: 1px solid rgba(99, 102, 241, 0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    }
+    .dashboard-welcome h3 { font-size: 1.25rem; color: #1a1a2e; margin-bottom: 0.5rem; }
+    .dashboard-welcome p { color: #6b6b80; margin: 0; }
+
+    /* Dashboard cards - shadcn style */
+    .dash-card {
+      background: white; border-radius: 0.75rem; border: 1px solid #e8e8f0;
+      padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); transition: box-shadow 0.2s;
+    }
+    .dash-card:hover { box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08); }
+    .dash-card-title { font-size: 0.875rem; font-weight: 600; color: #1a1a2e; margin-bottom: 1rem; }
+    .dash-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    @media (max-width: 768px) { .dash-grid { grid-template-columns: 1fr; } }
+
+    /* Circular progress */
+    .progress-ring { transform: rotate(-90deg); }
+    .progress-ring-bg { stroke: #e8e8f0; }
+    .progress-ring-fill { stroke: var(--primary); stroke-linecap: round; transition: stroke-dashoffset 0.6s ease; }
+    .readiness-center { font-size: 2rem; font-weight: 800; color: #1a1a2e; }
+    .readiness-label { font-size: 0.75rem; color: #8b8b9e; margin-top: 0.25rem; }
+
+    /* Radar chart */
+    .radar-chart { max-width: 280px; margin: 0 auto; }
+    .radar-fill { fill: rgba(99, 102, 241, 0.25); stroke: var(--primary); stroke-width: 2; }
+    .radar-axis { stroke: #e8e8f0; stroke-width: 1; }
+    .radar-label { font-size: 0.7rem; font-weight: 500; fill: #5a5a7a; }
+
+    /* Progress bar */
+    .progress-track { height: 8px; background: #e8e8f0; border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%); border-radius: 4px; transition: width 0.4s ease; }
+
+    /* Day circles */
+    .day-circles { display: flex; gap: 0.5rem; margin-top: 1rem; }
+    .day-circle { width: 2rem; height: 2rem; border-radius: 50%; font-size: 0.65rem; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; color: #8b8b9e;
+      background: #f0eeff; transition: all 0.2s;
+    }
+    .day-circle.filled { background: var(--primary); color: white; }
+
+    /* Assessment list */
+    .assessment-item { display: flex; justify-content: space-between; align-items: center;
+      padding: 0.75rem 0; border-bottom: 1px solid #f0f0f5; gap: 0.75rem;
+    }
+    .assessment-item:last-child { border-bottom: none; }
+    .assessment-item strong { font-size: 0.9rem; color: #1a1a2e; }
+    .assessment-item span { font-size: 0.8rem; color: #8b8b9e; white-space: nowrap; }
+
+    /* Assessment & Resource cards */
+    .assess-card, .resource-card {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 1.25rem; border-radius: 0.75rem; border: 1px solid #e8e8f0;
+      background: white; transition: all 0.2s ease; flex-wrap: wrap;
+    }
+    .assess-card:hover, .resource-card:hover { box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08); border-color: rgba(99, 102, 241, 0.2); }
+    .assess-card-info, .resource-card-info { flex: 1; min-width: 0; }
+    .assess-card-info h4, .resource-card-info h4 { font-size: 1rem; color: #1a1a2e; margin-bottom: 0.25rem; }
+    .assess-card-info p, .resource-card-info p { font-size: 0.85rem; color: #8b8b9e; margin: 0; }
+    .assess-questions { margin: 0.5rem 0 0; padding-left: 1rem; font-size: 0.8rem; color: #6b6b80; line-height: 1.5; }
+    .assess-questions li { margin-bottom: 0.2rem; }
+    .resource-card a { padding: 0.5rem 1rem; font-size: 0.875rem; font-weight: 600; border-radius: 0.5rem;
+      background: var(--primary); color: white; text-decoration: none; transition: background 0.2s;
+    }
+    .resource-card a:hover { background: var(--primary-dark); }
+
+    .dash-btn { display: flex; align-items: center; justify-content: center; padding: 0.5rem 1rem;
+      font-size: 0.875rem; font-weight: 600; border-radius: 0.5rem; cursor: pointer; border: none;
+      background: var(--primary); color: white; transition: background 0.2s; width: 100%;
+      font-family: inherit;
+    }
+    .dash-btn:hover { background: var(--primary-dark); }
+
+    /* Analyze page */
+    .analyze-form { max-width: 640px; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label { display: block; font-size: 0.875rem; font-weight: 600; color: #1a1a2e; margin-bottom: 0.5rem; }
+    .form-input { width: 100%; padding: 0.75rem 1rem; border: 1px solid #e8e8f0; border-radius: 0.5rem; font-size: 0.95rem; font-family: inherit; }
+    .form-input:focus { outline: none; border-color: var(--primary); }
+    .form-textarea { min-height: 200px; resize: vertical; }
+    .skill-tag { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.25rem 0.5rem; font-size: 0.75rem; font-weight: 500; border-radius: 0.375rem; margin: 0.2rem; background: var(--primary-light); color: var(--primary); }
+    .skill-toggle { font-size: 0.65rem; padding: 0.15rem 0.35rem; border-radius: 0.25rem; cursor: pointer; border: none; background: white; color: #8b8b9e; transition: all 0.15s; }
+    .skill-toggle.active-know { background: #4a6b4a; color: white; }
+    .skill-toggle.active-practice { background: #8b6914; color: white; }
+    .export-btn { padding: 0.4rem 0.75rem; font-size: 0.8rem; border-radius: 0.375rem; cursor: pointer; border: 1px solid #e8e8f0; background: white; color: #5a5a7a; transition: all 0.15s; margin-right: 0.5rem; margin-bottom: 0.5rem; }
+    .export-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .action-next { background: #fafaff; border: 1px solid rgba(99,102,241,0.15); border-radius: 0.75rem; padding: 1.25rem; margin-top: 2rem; }
+    .action-next h4 { font-size: 0.9rem; margin-bottom: 0.5rem; color: #1a1a2e; }
+    .round-timeline { position: relative; padding-left: 1.5rem; border-left: 2px solid #e8e8f0; }
+    .round-timeline-item { position: relative; padding-bottom: 1.25rem; }
+    .round-timeline-item::before { content: ''; position: absolute; left: -1.6rem; top: 0.35rem; width: 10px; height: 10px; border-radius: 50%; background: var(--primary); }
+    .round-timeline-item strong { display: block; font-size: 0.95rem; color: #1a1a2e; margin-bottom: 0.25rem; }
+    .round-timeline-item .why { font-size: 0.8rem; color: #8b8b9e; line-height: 1.4; }
+    .demo-note { font-size: 0.7rem; color: #8b8b9e; margin-top: 0.5rem; font-style: italic; }
+    .skill-cat { font-size: 0.75rem; font-weight: 600; color: #8b8b9e; margin: 0.75rem 0 0.25rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .checklist-item { padding: 0.5rem 0; padding-left: 1.5rem; position: relative; font-size: 0.9rem; }
+    .checklist-item::before { content: '□'; position: absolute; left: 0; color: var(--primary); }
+    .plan-day { padding: 0.75rem 1rem; margin-bottom: 0.5rem; background: #fafaff; border-radius: 0.5rem; border-left: 3px solid var(--primary); }
+    .question-item { padding: 0.75rem 0; border-bottom: 1px solid #f0f0f5; font-size: 0.9rem; }
+    .history-item { padding: 1rem; margin-bottom: 0.5rem; background: white; border: 1px solid #e8e8f0; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center; }
+    .history-item:hover { border-color: var(--primary); box-shadow: 0 2px 8px rgba(99,102,241,0.1); }
+    .history-empty { text-align: center; padding: 3rem; color: #8b8b9e; }
+    .validation-warning { font-size: 0.85rem; color: #8b6914; background: #fff9e6; border: 1px solid rgba(139,105,20,0.2); border-radius: 0.5rem; padding: 0.75rem 1rem; margin-top: 0.5rem; }
+    .test-summary { font-size: 1.25rem; font-weight: 700; color: #1a1a2e; margin-bottom: 1rem; }
+    .test-summary.warning { color: #8b6914; }
+    .test-summary.pass { color: #4a6b4a; }
+    .test-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1rem; margin-bottom: 0.5rem; background: white; border: 1px solid #e8e8f0; border-radius: 0.5rem; }
+    .test-item.checked { border-color: rgba(74,107,74,0.3); background: #f8fff8; }
+    .test-item input[type="checkbox"] { width: 1.25rem; height: 1.25rem; margin-top: 0.2rem; cursor: pointer; accent-color: var(--primary); }
+    .test-item-label { flex: 1; font-weight: 500; color: #1a1a2e; }
+    .test-item-hint { font-size: 0.8rem; color: #8b8b9e; margin-top: 0.35rem; }
+    .ship-locked { padding: 2rem; text-align: center; background: #fff9e6; border: 2px solid rgba(139,105,20,0.3); border-radius: 1rem; }
+    .ship-unlocked { padding: 2rem; text-align: center; background: #f8fff8; border: 2px solid rgba(74,107,74,0.3); border-radius: 1rem; }
+    .proof-status-badge { display: inline-flex; align-items: center; padding: 0.4rem 0.9rem; border-radius: 2rem; font-size: 0.8rem; font-weight: 600; }
+    .proof-status-badge.in-progress { background: #fff9e6; color: #8b6914; border: 1px solid rgba(139,105,20,0.3); }
+    .proof-status-badge.shipped { background: #f8fff8; color: #4a6b4a; border: 1px solid rgba(74,107,74,0.3); }
+    .proof-step { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1rem; margin-bottom: 0.5rem; background: white; border: 1px solid #e8e8f0; border-radius: 0.5rem; }
+    .proof-step.completed { border-color: rgba(74,107,74,0.3); background: #f8fff8; }
+    .proof-step input[type="checkbox"] { width: 1.2rem; height: 1.2rem; cursor: pointer; accent-color: var(--primary); }
+    .proof-step-badge { font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 0.25rem; }
+    .proof-step-badge.pending { background: #f0f0f5; color: #8b8b9e; }
+    .proof-step-badge.completed { background: rgba(74,107,74,0.15); color: #4a6b4a; }
+    .proof-input-group { margin-bottom: 1rem; }
+    .proof-input-group input { width: 100%; padding: 0.75rem 1rem; border: 1px solid #e8e8f0; border-radius: 0.5rem; font-size: 0.95rem; }
+    .proof-input-group input.invalid { border-color: #c94a4a; }
+    .proof-input-group .error { font-size: 0.8rem; color: #c94a4a; margin-top: 0.35rem; }
+    .proof-completion-card { text-align: center; padding: 2.5rem; background: linear-gradient(135deg, #f8fff8 0%, #f0fdf4 100%); border: 2px solid rgba(74,107,74,0.25); border-radius: 1rem; margin-bottom: 1.5rem; }
+    .proof-completion-card h3 { font-size: 1.35rem; color: #1a1a2e; margin-bottom: 0.75rem; line-height: 1.5; }
+    .proof-completion-card p { color: #5a5a7a; font-size: 1rem; line-height: 1.6; }
+    .practice-topic { display: flex; flex-direction: column; }
+    .practice-topic-icon { width: 3rem; height: 3rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; color: var(--primary); }
+    .practice-topic .dash-btn { align-self: flex-start; }
+    .profile-card .avatar svg { width: 1.25rem; height: 1.25rem; color: white; }
+    .practice-chapter-card { margin-bottom: 1rem; }
+    .practice-topics { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e8e8f0; display: none; }
+    .practice-topics.expanded { display: block; }
+    .practice-topic-item { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0.75rem; margin-bottom: 0.4rem; background: #fafaff; border-radius: 0.5rem; border: 1px solid #e8e8f0; }
+    .practice-topic-item.completed { border-color: rgba(74,107,74,0.3); background: #f8fff8; }
+    .practice-topic-item .topic-check { accent-color: var(--primary); width: 1.1rem; height: 1.1rem; cursor: pointer; }
+    .practice-progress { font-size: 0.8rem; color: #8b8b9e; margin-top: 0.35rem; }
+  </style>
+</head>
+<body>
+  <!-- Landing Page -->
+  <div id="landing">
+    <section class="hero">
+      <div class="hero-badge">🚀 Your placement journey starts here</div>
+      <h1>Ace Your <span>Placement</span></h1>
+      <p>Practice, assess, and prepare for your dream job. Built for serious candidates.</p>
+      <a class="btn primary" onclick="showDashboard()">
+        Get Started
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </section>
+    <section class="features">
+      <div class="features-inner">
+        <h2 class="section-title">Everything you need to succeed</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M16 18l6-6-6-6M8 6v12"/></svg>
+            </div>
+            <h3>Practice Problems</h3>
+            <p>Sharpen your coding skills with curated problems across DSA, system design, and more.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 8v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><polyline points="10 15 15 12 10 9"/></svg>
+            </div>
+            <h3>Mock Interviews</h3>
+            <p>Simulate real interview conditions with timed mock interviews and feedback.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+            </div>
+            <h3>Track Progress</h3>
+            <p>Monitor your performance with detailed analytics and personalized insights.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="footer">© 2025 Placement Readiness Platform. All rights reserved.</footer>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard">
+    <aside class="sidebar">
+      <div class="sidebar-title"><span>Placement</span> Prep</div>
+      <nav class="nav">
+        <a href="#dashboard" class="active" data-page="dashboard" onclick="navigate(event, 'dashboard')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+          Dashboard
+        </a>
+        <a href="#practice" data-page="practice" onclick="navigate(event, 'practice')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M16 18l6-6-6-6M8 6v12"/></svg>
+          Practice
+        </a>
+        <a href="#assessments" data-page="assessments" onclick="navigate(event, 'assessments')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Assessments
+        </a>
+        <a href="#analyze" data-page="analyze" onclick="navigate(event, 'analyze')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/><path d="M10 10l-4 4"/></svg>
+          Analyze JD
+        </a>
+        <a href="#history" data-page="history" onclick="navigate(event, 'history')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          History
+        </a>
+        <a href="#results" data-page="results" id="navResults" onclick="navigate(event, 'results')" style="display:none">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          Results
+        </a>
+        <a href="#resources" data-page="resources" onclick="navigate(event, 'resources')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8"/><path d="M8 11h8"/></svg>
+          Resources
+        </a>
+        <a href="#profile" data-page="profile" onclick="navigate(event, 'profile')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Profile
+        </a>
+        <a href="#prp/07-test" data-page="test" onclick="navigate(event, 'test')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Test
+        </a>
+        <a href="#prp/08-ship" data-page="ship" onclick="navigate(event, 'ship')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M5 8l6 6M4 14l6-6 2-3"/><circle cx="12" cy="12" r="10"/></svg>
+          Ship
+        </a>
+        <a href="#prp/proof" data-page="proof" onclick="navigate(event, 'proof')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          Proof
+        </a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="header">
+        <h1>Placement Prep</h1>
+        <div style="display:flex;align-items:center;gap:1rem;">
+          <span id="proofStatusBadge" class="proof-status-badge in-progress">In Progress</span>
+          <div class="avatar">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+        </div>
+      </header>
+      <main class="content">
+        <div id="page-dashboard" class="page active">
+          <div class="dashboard-welcome">
+            <h3>Welcome back</h3>
+            <p>Your placement prep dashboard. Track progress, practice, and ace your interviews.</p>
+          </div>
+
+          <div class="dash-grid">
+            <!-- Overall Readiness -->
+            <div class="dash-card">
+              <div class="dash-card-title">Overall Readiness</div>
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="position: relative; width: 160px; height: 160px;">
+                  <svg class="progress-ring" width="160" height="160" viewBox="0 0 160 160">
+                    <circle class="progress-ring-bg" cx="80" cy="80" r="70" fill="none" stroke-width="12"/>
+                    <circle class="progress-ring-fill" cx="80" cy="80" r="70" fill="none" stroke-width="12"
+                      stroke-dasharray="439.6" stroke-dashoffset="123.1"/>
+                  </svg>
+                  <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <span class="readiness-center">72</span>
+                    <span class="readiness-label">Readiness Score</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skill Breakdown - Radar Chart -->
+            <div class="dash-card">
+              <div class="dash-card-title">Skill Breakdown</div>
+              <div class="radar-chart">
+                <svg viewBox="0 0 240 240" style="width: 100%; height: auto;">
+                  <defs>
+                    <polygon id="radar-bg" points="120,20 200,80 175,175 65,175 40,80" fill="none" stroke="#e8e8f0" stroke-width="1"/>
+                  </defs>
+                  <!-- Grid levels -->
+                  <g opacity="0.5">
+                    <polygon points="120,35 185,78 165,155 75,155 55,78" fill="none" stroke="#e8e8f0" stroke-width="1"/>
+                    <polygon points="120,50 170,76 155,135 85,135 70,76" fill="none" stroke="#e8e8f0" stroke-width="1"/>
+                    <polygon points="120,65 155,74 145,115 95,115 85,74" fill="none" stroke="#e8e8f0" stroke-width="1"/>
+                    <polygon points="120,80 140,72 135,95 105,95 100,72" fill="none" stroke="#e8e8f0" stroke-width="1"/>
+                  </g>
+                  <!-- Axis lines -->
+                  <line x1="120" y1="120" x2="120" y2="20" class="radar-axis"/>
+                  <line x1="120" y1="120" x2="200" y2="80" class="radar-axis"/>
+                  <line x1="120" y1="120" x2="175" y2="175" class="radar-axis"/>
+                  <line x1="120" y1="120" x2="65" y2="175" class="radar-axis"/>
+                  <line x1="120" y1="120" x2="40" y2="80" class="radar-axis"/>
+                  <!-- Data polygon: DSA(75) System(60) Comm(80) Resume(85) Aptitude(70) scaled to radius -->
+                  <polygon class="radar-fill" points="120,45 177,101 167,185 70,189 54,98"/>
+                  <!-- Labels -->
+                  <text x="120" y="15" text-anchor="middle" class="radar-label">DSA</text>
+                  <text x="208" y="85" text-anchor="start" class="radar-label">System Design</text>
+                  <text x="182" y="188" text-anchor="middle" class="radar-label">Communication</text>
+                  <text x="58" y="188" text-anchor="middle" class="radar-label">Resume</text>
+                  <text x="32" y="85" text-anchor="end" class="radar-label">Aptitude</text>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Continue Practice -->
+            <div class="dash-card">
+              <div class="dash-card-title">Continue Practice</div>
+              <div style="margin-bottom: 1rem;">
+                <div style="font-weight: 600; color: #1a1a2e; margin-bottom: 0.5rem;">Dynamic Programming</div>
+                <div style="font-size: 0.85rem; color: #8b8b9e; margin-bottom: 0.75rem;">3 of 10 completed</div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 30%;"></div>
+                </div>
+              </div>
+              <button class="dash-btn">Continue</button>
+            </div>
+
+            <!-- Weekly Goals -->
+            <div class="dash-card">
+              <div class="dash-card-title">Weekly Goals</div>
+              <div style="font-size: 0.9rem; font-weight: 500; color: #1a1a2e; margin-bottom: 0.5rem;">Problems Solved: 12/20 this week</div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 60%;"></div>
+              </div>
+              <div class="day-circles">
+                <div class="day-circle filled" title="Mon">Mo</div>
+                <div class="day-circle filled" title="Tue">Tu</div>
+                <div class="day-circle filled" title="Wed">We</div>
+                <div class="day-circle" title="Thu">Th</div>
+                <div class="day-circle filled" title="Fri">Fr</div>
+                <div class="day-circle filled" title="Sat">Sa</div>
+                <div class="day-circle" title="Sun">Su</div>
+              </div>
+            </div>
+
+            <!-- Upcoming Assessments - spans 2 cols -->
+            <div class="dash-card" style="grid-column: 1 / -1;">
+              <div class="dash-card-title">Upcoming Assessments</div>
+              <div class="assessment-item">
+                <strong>DSA Mock Test</strong>
+                <span>Tomorrow, 10:00 AM</span>
+              </div>
+              <div class="assessment-item">
+                <strong>System Design Review</strong>
+                <span>Wed, 2:00 PM</span>
+              </div>
+              <div class="assessment-item">
+                <strong>HR Interview Prep</strong>
+                <span>Friday, 11:00 AM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="page-practice" class="page">
+          <h2 style="margin-bottom: 0.5rem;">Practice</h2>
+          <p style="margin-bottom: 1.5rem; color: #5a5a7a;">Sharpen your coding skills. Click Start to expand a chapter and track topics.</p>
+          <div id="practiceContent"></div>
+          <div class="dash-card" style="margin-top: 1.5rem;">
+            <div class="dash-card-title">Daily Streak</div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div style="font-size: 2rem; font-weight: 800; color: var(--primary);">3</div>
+              <div>
+                <div style="font-weight: 600; color: #1a1a2e;">Keep going</div>
+                <div style="font-size: 0.85rem; color: #8b8b9e;">Solve at least 1 problem today to maintain your streak.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="page-assessments" class="page">
+          <h2 style="margin-bottom: 0.5rem;">Assessments</h2>
+          <p style="margin-bottom: 1.5rem; color: #5a5a7a;">Take mock assessments and track your scores.</p>
+          <div id="assessList">
+          <div class="dash-grid">
+            <div class="dash-card">
+              <div class="dash-card-title">Available Mock Tests</div>
+              <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <div class="assess-card">
+                  <div class="assess-card-info">
+                    <h4>DSA Mock Test</h4>
+                    <p>45 min · 15 questions · Arrays, Trees, DP</p>
+                    <ul class="assess-questions">
+                      <li>Two Sum · Valid Anagram · Maximum Subarray</li>
+                      <li>Binary Tree Inorder Traversal · Level Order Traversal</li>
+                      <li>Climbing Stairs · House Robber · Longest Increasing Subsequence</li>
+                    </ul>
+                  </div>
+                  <button type="button" class="dash-btn" style="width: auto; padding: 0.5rem 1.25rem;" onclick="startAssessment('dsa')">Start</button>
+                </div>
+                <div class="assess-card">
+                  <div class="assess-card-info">
+                    <h4>System Design Assessment</h4>
+                    <p>60 min · Design a scalable system</p>
+                    <ul class="assess-questions">
+                      <li>Design a URL shortener (e.g. bit.ly)</li>
+                      <li>Design a real-time chat system</li>
+                      <li>Design a rate limiter / API gateway</li>
+                    </ul>
+                  </div>
+                  <button type="button" class="dash-btn" style="width: auto; padding: 0.5rem 1.25rem;" onclick="startAssessment('system-design')">Start</button>
+                </div>
+                <div class="assess-card">
+                  <div class="assess-card-info">
+                    <h4>Aptitude & Reasoning</h4>
+                    <p>30 min · 20 questions · Quant & Logical</p>
+                    <ul class="assess-questions">
+                      <li>If 5x + 3 = 18, find x · Work & time problems</li>
+                      <li>Complete the series: 2, 6, 12, 20, ? · Odd one out</li>
+                      <li>Direction & seating arrangement puzzles</li>
+                    </ul>
+                  </div>
+                  <button type="button" class="dash-btn" style="width: auto; padding: 0.5rem 1.25rem;" onclick="startAssessment('aptitude')">Start</button>
+                </div>
+                <div class="assess-card">
+                  <div class="assess-card-info">
+                    <h4>HR Interview Simulator</h4>
+                    <p>15 min · Behavioral & Situational</p>
+                    <ul class="assess-questions">
+                      <li>Tell me about a time you solved a conflict</li>
+                      <li>Why do you want to join our company?</li>
+                      <li>Describe a project you’re most proud of</li>
+                      <li>How do you handle tight deadlines?</li>
+                    </ul>
+                  </div>
+                  <button type="button" class="dash-btn" style="width: auto; padding: 0.5rem 1.25rem;" onclick="startAssessment('hr')">Start</button>
+                </div>
+              </div>
+            </div>
+            <div class="dash-card">
+              <div class="dash-card-title">Recent Scores</div>
+              <div class="assessment-item">
+                <strong>DSA Mock</strong>
+                <span>78% · 2 days ago</span>
+              </div>
+              <div class="assessment-item">
+                <strong>Aptitude</strong>
+                <span>85% · 1 week ago</span>
+              </div>
+              <div class="assessment-item">
+                <strong>System Design</strong>
+                <span>—</span>
+              </div>
+              <p style="font-size: 0.8rem; color: #8b8b9e; margin-top: 1rem;">Complete an assessment to see your scores here.</p>
+            </div>
+          </div>
+          </div>
+          <div id="assessRunner" style="display:none;">
+            <div class="dash-card">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                <div class="dash-card-title" id="assessTitle">Assessment</div>
+                <span id="assessProgress" style="font-size:0.85rem;color:#8b8b9e;">Question 1 of 5</span>
+              </div>
+              <div id="assessQuestionArea"></div>
+              <div style="display:flex;gap:0.75rem;margin-top:1.5rem;">
+                <button type="button" class="dash-btn" style="width:auto;background:#e8e8f0;color:#1a1a2e;" id="assessPrevBtn" onclick="assessPrev()">Previous</button>
+                <button type="button" class="dash-btn" style="width:auto;" id="assessNextBtn" onclick="assessNext()">Next</button>
+                <button type="button" class="dash-btn" style="width:auto;display:none;" id="assessSubmitBtn" onclick="assessSubmit()">Submit</button>
+              </div>
+              <button type="button" style="margin-top:1rem;background:none;border:none;color:#8b8b9e;font-size:0.85rem;cursor:pointer;" onclick="exitAssessment()">← Back to assessments</button>
+            </div>
+            <div id="assessResult" style="display:none;" class="dash-card">
+              <div class="dash-card-title">Assessment Complete</div>
+              <p id="assessScoreMsg" style="margin:1rem 0;"></p>
+              <button type="button" class="dash-btn" style="width:auto;" onclick="exitAssessment()">Back to assessments</button>
+            </div>
+          </div>
+        </div>
+        <div id="page-resources" class="page">
+          <h2 style="margin-bottom: 0.5rem;">Resources</h2>
+          <p style="margin-bottom: 1.5rem; color: #5a5a7a;">Study materials, guides, and tips for placement preparation.</p>
+          <div class="dash-grid">
+            <div class="dash-card" style="grid-column: 1 / -1;">
+              <div class="dash-card-title">DSA & Coding</div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+                <div class="resource-card">
+                  <div class="resource-card-info">
+                    <h4>NeetCode Roadmap</h4>
+                    <p>Curated list of patterns and problems by topic</p>
+                  </div>
+                  <a href="https://neetcode.io/roadmap" target="_blank" rel="noopener">Open</a>
+                </div>
+                <div class="resource-card">
+                  <div class="resource-card-info">
+                    <h4>Blind 75 / Grokking</h4>
+                    <p>Classic interview problem patterns</p>
+                  </div>
+                  <a href="https://www.teamblind.com/article/New-Year-Gift---Curated-List-of-Top-100-LeetCode-Questions-sort-by-Frequency-of-Interview-Questions-amazon-2023-1-4-4h5n" target="_blank" rel="noopener">Open</a>
+                </div>
+                <div class="resource-card">
+                  <div class="resource-card-info">
+                    <h4>Striver's SDE Sheet</h4>
+                    <p>Day-by-day DSA preparation plan</p>
+                  </div>
+                  <a href="https://takeuforward.org/strivers-a2z-dsa-course/" target="_blank" rel="noopener">Open</a>
+                </div>
+              </div>
+            </div>
+            <div class="dash-card">
+              <div class="dash-card-title">System Design</div>
+              <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <div class="resource-card">
+                  <div class="resource-card-info">
+                    <h4>ByteByteGo</h4>
+                    <p>System design fundamentals</p>
+                  </div>
+                  <a href="https://bytebytego.com/" target="_blank" rel="noopener">Open</a>
+                </div>
+                <div class="resource-card">
+                  <div class="resource-card-info">
+                    <h4>Designing Data-Intensive Apps</h4>
+                    <p>Book: scalability & reliability</p>
+                  </div>
+                  <a href="https://dataintensive.net/" target="_blank" rel="noopener">Open</a>
+                </div>
+              </div>
+            </div>
+            <div class="dash-card">
+              <div class="dash-card-title">Interview Prep</div>
+              <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <div class="resource-card">
+                  <div class="resource-card-info">
+                    <h4>STAR Method Guide</h4>
+                    <p>Behavioral interview responses</p>
+                  </div>
+                  <a href="https://www.themuse.com/advice/star-interview-method" target="_blank" rel="noopener">Open</a>
+                </div>
+                <div class="resource-card">
+                  <div class="resource-card-info">
+                    <h4>Glassdoor Interview Tips</h4>
+                    <p>Company-specific experiences</p>
+                  </div>
+                  <a href="https://www.glassdoor.com/blog/guide/interview-questions/" target="_blank" rel="noopener">Open</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="page-profile" class="page">
+          <h2 style="margin-bottom: 0.5rem;">Profile</h2>
+          <p style="margin-bottom: 1.5rem; color: #5a5a7a;">Manage your account and preferences.</p>
+          <div class="dash-grid">
+            <div class="dash-card profile-card">
+              <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;">
+                <div class="avatar" style="width: 3.5rem; height: 3.5rem;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div>
+                  <div style="font-weight: 700; font-size: 1.1rem; color: #1a1a2e;">Candidate</div>
+                  <div style="font-size: 0.85rem; color: #8b8b9e;">placement@prep.local</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 1.5rem; padding-top: 1rem; border-top: 1px solid #e8e8f0;">
+                <div style="text-align: center;">
+                  <div style="font-size: 1.25rem; font-weight: 700; color: var(--primary);">12</div>
+                  <div style="font-size: 0.75rem; color: #8b8b9e;">Problems</div>
+                </div>
+                <div style="text-align: center;">
+                  <div style="font-size: 1.25rem; font-weight: 700; color: var(--primary);">72</div>
+                  <div style="font-size: 0.75rem; color: #8b8b9e;">Readiness</div>
+                </div>
+                <div style="text-align: center;">
+                  <div style="font-size: 1.25rem; font-weight: 700; color: var(--primary);">3</div>
+                  <div style="font-size: 0.75rem; color: #8b8b9e;">Streak</div>
+                </div>
+              </div>
+            </div>
+            <div class="dash-card">
+              <div class="dash-card-title">Preferences</div>
+              <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <label style="display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0; font-size: 0.9rem;">
+                  <span>Email notifications</span>
+                  <input type="checkbox" checked style="accent-color: var(--primary);">
+                </label>
+                <label style="display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0; font-size: 0.9rem;">
+                  <span>Daily reminders</span>
+                  <input type="checkbox" style="accent-color: var(--primary);">
+                </label>
+                <label style="display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0; font-size: 0.9rem;">
+                  <span>Show hints by default</span>
+                  <input type="checkbox" style="accent-color: var(--primary);">
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="dash-card" style="margin-top: 1.5rem;">
+            <div class="dash-card-title">Quick Links</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+              <a href="#" onclick="navigate(event, 'analyze')" style="padding: 0.5rem 1rem; border-radius: 0.5rem; background: var(--primary-light); color: var(--primary); font-size: 0.875rem; font-weight: 500; text-decoration: none;">Analyze JD</a>
+              <a href="#" onclick="navigate(event, 'history')" style="padding: 0.5rem 1rem; border-radius: 0.5rem; background: var(--primary-light); color: var(--primary); font-size: 0.875rem; font-weight: 500; text-decoration: none;">History</a>
+              <a href="#" onclick="navigate(event, 'test')" style="padding: 0.5rem 1rem; border-radius: 0.5rem; background: var(--primary-light); color: var(--primary); font-size: 0.875rem; font-weight: 500; text-decoration: none;">Test Checklist</a>
+            </div>
+          </div>
+        </div>
+
+        <div id="page-analyze" class="page">
+          <h2 style="margin-bottom: 1.5rem;">Analyze Job Description</h2>
+          <p style="margin-bottom: 1.5rem; color: #1a1a2e;">Paste a job description to extract skills and get a personalized preparation plan.</p>
+          <form class="analyze-form" id="analyzeForm" onsubmit="runAnalysis(event)">
+            <div class="form-group">
+              <label class="form-label">Company Name</label>
+              <input type="text" class="form-input" id="company" placeholder="e.g. Google, Microsoft">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Role</label>
+              <input type="text" class="form-input" id="role" placeholder="e.g. SDE, Software Engineer">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Job Description</label>
+              <textarea class="form-input form-textarea" id="jdText" placeholder="Paste the full job description here..." required minlength="1"></textarea>
+              <div id="jdWarning" class="validation-warning" style="display:none;">This JD is too short to analyze deeply. Paste full JD for better output.</div>
+            </div>
+            <button type="submit" class="dash-btn" style="width: auto; padding: 0.75rem 2rem;">Analyze</button>
+          </form>
+        </div>
+
+        <div id="page-history" class="page">
+          <h2 style="margin-bottom: 1rem;">Analysis History</h2>
+          <p style="margin-bottom: 1.5rem; color: #5a5a7a;">Your saved analyses. Click to view.</p>
+          <div id="historyList"></div>
+        </div>
+
+        <div id="page-results" class="page">
+          <div id="resultsContent"></div>
+        </div>
+
+        <div id="page-test" class="page">
+          <h2 style="margin-bottom: 0.5rem;">Test Checklist</h2>
+          <p style="margin-bottom: 1.5rem; color: #5a5a7a;">Verify all features before shipping. Check each item after testing.</p>
+          <div id="testSummary" class="test-summary">Tests Passed: 0 / 10</div>
+          <div id="testWarning" class="validation-warning" style="display:none;margin-bottom:1rem;">Fix issues before shipping.</div>
+          <div id="testChecklist"></div>
+          <button type="button" class="dash-btn" style="width:auto;margin-top:1.5rem;" onclick="resetTestChecklist()">Reset checklist</button>
+        </div>
+
+        <div id="page-ship" class="page">
+          <div id="shipContent"></div>
+        </div>
+
+        <div id="page-proof" class="page">
+          <div id="proofContent"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'placement_jd_history';
+    const TEST_CHECKLIST_KEY = 'prp_test_checklist';
+    const BUILD_STEPS_KEY = 'prp_build_steps';
+    const SUBMISSION_KEY = 'prp_final_submission';
+
+    const PROOF_STEPS = [
+      { id: 'onboarded', label: 'Dashboard & Onboarding', checkable: true },
+      { id: 'jd-analysis', label: 'JD Analysis flow', checkable: true },
+      { id: 'company-intel', label: 'Company Intel block', checkable: true },
+      { id: 'round-mapping', label: 'Round Mapping', checkable: true },
+      { id: 'readiness-score', label: 'Readiness score & toggles', checkable: true },
+      { id: 'history-export', label: 'History & export', checkable: true },
+      { id: 'tests-passed', label: 'Test checklist (all 10)', checkable: false },
+      { id: 'ship-ready', label: 'Ship page', checkable: false }
+    ];
+
+    const PRACTICE_PROGRESS_KEY = 'prp_practice_progress';
+    const PRACTICE_CHAPTERS = [
+      { id: 'arrays', title: 'Arrays & Strings', desc: 'Two pointers, sliding window, prefix sums.', icon: 'M4 7h16M4 12h10M4 17h6', topics: [
+        { id: 'two-pointers', name: 'Two Pointers' },
+        { id: 'sliding-window', name: 'Sliding Window' },
+        { id: 'prefix-sums', name: 'Prefix Sums' },
+        { id: 'two-sum', name: 'Two Sum & Variants' },
+        { id: 'subarrays', name: 'Subarray Problems' }
+      ]},
+      { id: 'trees', title: 'Trees & Graphs', desc: 'DFS, BFS, traversal, path finding.', icon: 'M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83', topics: [
+        { id: 'dfs', name: 'DFS Traversal' },
+        { id: 'bfs', name: 'BFS & Level Order' },
+        { id: 'binary-tree', name: 'Binary Tree Problems' },
+        { id: 'graph-basics', name: 'Graph Basics' },
+        { id: 'shortest-path', name: 'Shortest Path' }
+      ]},
+      { id: 'dp', title: 'Dynamic Programming', desc: 'Memoization, tabulation, classic patterns.', icon: 'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5', topics: [
+        { id: 'memoization', name: 'Memoization' },
+        { id: 'tabulation', name: 'Tabulation' },
+        { id: 'lcs', name: 'LCS & LIS' },
+        { id: 'knapsack', name: 'Knapsack' },
+        { id: 'dp-on-trees', name: 'DP on Trees' }
+      ]},
+      { id: 'system', title: 'System Design', desc: 'Scalability, load balancing, caching.', icon: 'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z', topics: [
+        { id: 'scalability', name: 'Scalability' },
+        { id: 'load-balancing', name: 'Load Balancing' },
+        { id: 'caching', name: 'Caching Strategies' },
+        { id: 'url-shortener', name: 'URL Shortener' },
+        { id: 'chat-system', name: 'Chat System' }
+      ]}
+    ];
+
+    const ASSESSMENT_QUESTIONS = {
+      dsa: {
+        title: 'DSA Mock Test',
+        questions: [
+          { q: 'What is the time complexity of Two Sum using a hash map?', opts: ['O(n²)', 'O(n log n)', 'O(n)', 'O(1)'], ans: 2 },
+          { q: 'Which traversal gives nodes in ascending order for a BST?', opts: ['Preorder', 'Inorder', 'Postorder', 'Level order'], ans: 1 },
+          { q: 'For Climbing Stairs (n steps), what is the base case for dp[0]?', opts: ['0', '1', '2', 'n'], ans: 1 },
+          { q: 'Maximum Subarray is best solved with:', opts: ['Two pointers', 'Sliding window', 'Kadane\'s algorithm', 'Binary search'], ans: 2 },
+          { q: 'Valid Anagram can be checked in O(n) using:', opts: ['Sorting', 'Hash map', 'Nested loops', 'Binary search'], ans: 1 }
+        ]
+      },
+      'system-design': {
+        title: 'System Design Assessment',
+        questions: [
+          { q: 'For a URL shortener, what datastore suits short code → long URL mapping?', opts: ['Relational DB only', 'Key-value store (Redis)', 'Graph DB', 'Document DB only'], ans: 1 },
+          { q: 'Real-time chat typically uses which protocol?', opts: ['HTTP long polling', 'WebSockets', 'REST only', 'gRPC only'], ans: 1 },
+          { q: 'A rate limiter is best placed at:', opts: ['Database layer', 'Application server', 'API gateway / edge', 'Client side'], ans: 2 },
+          { q: 'Load balancing helps with:', opts: ['Security only', 'Scalability and availability', 'Caching only', 'Logging only'], ans: 1 },
+          { q: 'Caching improves:', opts: ['Latency only', 'Latency and throughput', 'Security', 'Data consistency'], ans: 1 }
+        ]
+      },
+      aptitude: {
+        title: 'Aptitude & Reasoning',
+        questions: [
+          { q: 'If 5x + 3 = 18, what is x?', opts: ['2', '3', '4', '5'], ans: 1 },
+          { q: 'Complete: 2, 6, 12, 20, ?', opts: ['28', '30', '32', '36'], ans: 1 },
+          { q: 'A takes 6 days, B takes 12 days. Together they finish in:', opts: ['4 days', '6 days', '8 days', '9 days'], ans: 0 },
+          { q: 'If all roses are flowers and some flowers fade, then:', opts: ['All roses fade', 'No roses fade', 'Some roses may fade', 'Roses never fade'], ans: 2 },
+          { q: 'In a row, A is 5th from left, B is 12th from right. Total people?', opts: ['16', '17', 'Cannot say', '15'], ans: 2 }
+        ]
+      },
+      hr: {
+        title: 'HR Interview Simulator',
+        questions: [
+          { q: 'Best approach for "Tell me about a conflict" is:', opts: ['Blame others', 'Use STAR method', 'Keep it vague', 'Avoid the question'], ans: 1 },
+          { q: '"Why our company?" should emphasize:', opts: ['Salary only', 'Research and alignment with company', 'Other offers', 'No specific reason'], ans: 1 },
+          { q: 'When describing a project, highlight:', opts: ['Only your role', 'Your role, impact, and learnings', 'Only tech stack', 'Others\' work'], ans: 1 },
+          { q: 'For tight deadlines, you should:', opts: ['Work alone', 'Prioritize, communicate, seek help', 'Ignore the deadline', 'Complain'], ans: 1 },
+          { q: 'A good weakness answer:', opts: ['"I have none"', 'Real weakness + how you\'re improving', 'Multiple weaknesses', 'Blame others'], ans: 1 }
+        ]
+      }
+    };
+
+    const TEST_ITEMS = [
+      { id: 'jd-required', label: 'JD required validation works', hint: 'Leave JD empty and click Analyze — browser should show validation.' },
+      { id: 'short-jd-warning', label: 'Short JD warning shows for <200 chars', hint: 'Paste ~100 chars, click Analyze — see yellow warning, no analysis.' },
+      { id: 'skills-extraction', label: 'Skills extraction groups correctly', hint: 'Paste JD with DSA, React, SQL — verify Core CS, Web, Data categories.' },
+      { id: 'round-mapping', label: 'Round mapping changes based on company + skills', hint: 'Try Amazon vs unknown company — rounds differ (Enterprise vs Startup).' },
+      { id: 'score-deterministic', label: 'Score calculation is deterministic', hint: 'Same JD twice — same baseScore. Toggle skills — finalScore updates.' },
+      { id: 'skill-toggles-live', label: 'Skill toggles update score live', hint: 'On Results, click I know this — score increases immediately.' },
+      { id: 'persist-refresh', label: 'Changes persist after refresh', hint: 'Toggle skill, refresh page — score and toggle state saved.' },
+      { id: 'history-save-load', label: 'History saves and loads correctly', hint: 'Analyze a JD, go to History, click entry — results load.' },
+      { id: 'export-copy', label: 'Export buttons copy the correct content', hint: 'Click Copy 7-day plan — paste elsewhere to verify content.' },
+      { id: 'no-console-errors', label: 'No console errors on core pages', hint: 'Open DevTools Console, visit Dashboard, Analyze, Results — no red errors.' }
+    ];
+
+    const SKILL_CATEGORY_KEYS = ['coreCS', 'languages', 'web', 'data', 'cloud', 'testing', 'other'];
+
+    const SKILL_CATEGORIES = {
+      coreCS: { label: 'Core CS', keywords: ['dsa', 'data structures', 'algorithms', 'oop', 'object oriented', 'dbms', 'database', 'os', 'operating system', 'networks', 'computer networks'] },
+      languages: { label: 'Languages', keywords: ['java', 'python', 'javascript', 'typescript', 'c++', 'c#', 'golang', ' go ', 'c language', 'c programming'] },
+      web: { label: 'Web', keywords: ['react', 'next.js', 'nextjs', 'node.js', 'nodejs', 'express', 'rest api', 'restful', 'graphql'] },
+      data: { label: 'Data', keywords: ['sql', 'mongodb', 'postgresql', 'postgres', 'mysql', 'redis'] },
+      cloudDevOps: { label: 'Cloud/DevOps', keywords: ['aws', 'azure', 'gcp', 'docker', 'kubernetes', 'ci/cd', 'cicd', 'linux'] },
+      testing: { label: 'Testing', keywords: ['selenium', 'cypress', 'playwright', 'junit', 'pytest'] }
+    };
+
+    const CATEGORY_KEYS = Object.keys(SKILL_CATEGORIES);
+
+    const DEFAULT_OTHER_SKILLS = ['Communication', 'Problem solving', 'Basic coding', 'Projects'];
+
+    function extractSkills(jdText) {
+      const text = (jdText || '').toLowerCase();
+      const extracted = {};
+      for (const [key, cat] of Object.entries(SKILL_CATEGORIES)) {
+        const found = cat.keywords.filter(kw => {
+          const regex = new RegExp(kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+          return regex.test(text);
+        });
+        if (found.length) extracted[key] = found.map(f => f.charAt(0).toUpperCase() + f.slice(1).replace(/\s/g, ''));
+      }
+      return extracted;
+    }
+
+    function normalizeExtractedSkills(raw) {
+      const out = { coreCS: [], languages: [], web: [], data: [], cloud: [], testing: [], other: [] };
+      if (!raw || typeof raw !== 'object') return out;
+      const mapKey = (k) => (k === 'cloudDevOps' ? 'cloud' : k);
+      for (const [k, v] of Object.entries(raw)) {
+        const key = mapKey(k);
+        if (SKILL_CATEGORY_KEYS.includes(key) && Array.isArray(v)) out[key] = [...v];
+        else if (k === '_general' && Array.isArray(v)) out.other.push(...v);
+      }
+      if (out.other.length === 0 && Object.values(out).every(a => a.length === 0)) out.other = [...DEFAULT_OTHER_SKILLS];
+      return out;
+    }
+
+    function normalizeEntry(entry) {
+      if (!entry || typeof entry !== 'object') return null;
+      const now = new Date().toISOString();
+      const skills = normalizeExtractedSkills(entry.extractedSkills);
+      const hasAnySkills = Object.values(skills).some(a => a.length > 0);
+      const skillsForGen = { ...skills, cloudDevOps: skills.cloud, _general: skills.other };
+
+      let roundMapping = entry.roundMapping;
+      if (!Array.isArray(roundMapping) && entry.companyIntel) roundMapping = getRoundMapping(entry.companyIntel, skillsForGen);
+      if (!Array.isArray(roundMapping)) roundMapping = getRoundMapping(entry.companyIntel || null, skillsForGen);
+      roundMapping = roundMapping.map(r => ({
+        roundTitle: r.roundTitle || r.round || 'Round',
+        focusAreas: Array.isArray(r.focusAreas) ? r.focusAreas : [],
+        whyItMatters: r.whyItMatters ?? r.why ?? ''
+      }));
+
+      let checklist = entry.checklist;
+      if (!Array.isArray(checklist)) checklist = generateChecklist(skillsForGen);
+      checklist = checklist.map(c => ({ roundTitle: c.roundTitle || c.round || 'Round', items: Array.isArray(c.items) ? c.items : [] }));
+
+      let plan7Days = entry.plan7Days;
+      if (!Array.isArray(plan7Days) && Array.isArray(entry.plan)) {
+        plan7Days = entry.plan.map(p => ({ day: p.day || '', focus: p.focus || p.title || '', tasks: Array.isArray(p.tasks) ? p.tasks : (p.desc ? [p.desc] : []) }));
+      }
+      if (!Array.isArray(plan7Days)) plan7Days = generatePlan(skillsForGen).map(p => ({ day: p.day, focus: p.title, tasks: [p.desc] }));
+
+      let questions = Array.isArray(entry.questions) ? entry.questions : generateQuestions(skillsForGen);
+
+      const baseScore = typeof entry.baseScore === 'number' ? entry.baseScore : (entry.baseReadinessScore ?? entry.readinessScore ?? calcReadinessScore(entry.company || '', entry.role || '', entry.jdText || '', skillsForGen));
+      const map = entry.skillConfidenceMap || {};
+      const allS = [];
+      for (const v of Object.values(skills)) allS.push(...v);
+      allS.forEach(sk => { if (!(sk in map)) map[sk] = 'practice'; });
+      let adj = 0;
+      for (const v of Object.values(map)) adj += v === 'know' ? 2 : -2;
+      const finalScore = Math.max(0, Math.min(100, baseScore + adj));
+      const updatedAt = entry.updatedAt || entry.createdAt || now;
+
+      const out = {
+        id: entry.id || 'jd_' + Date.now(),
+        createdAt: entry.createdAt || now,
+        company: typeof entry.company === 'string' ? entry.company : '',
+        role: typeof entry.role === 'string' ? entry.role : '',
+        jdText: typeof entry.jdText === 'string' ? entry.jdText : '',
+        extractedSkills: skills,
+        roundMapping,
+        checklist,
+        plan7Days,
+        questions,
+        baseScore,
+        skillConfidenceMap: map,
+        finalScore,
+        updatedAt,
+        companyIntel: entry.companyIntel || null
+      };
+      out.readinessScore = out.finalScore;
+      return out;
+    }
+
+    function generateChecklist(skills) {
+      const hasDSA = skills.coreCS?.length;
+      const hasWeb = skills.web?.length;
+      const hasData = skills.data?.length;
+      const hasCloud = skills.cloudDevOps?.length;
+      const hasTesting = skills.testing?.length;
+
+      return [
+        { round: 'Round 1: Aptitude / Basics', items: [
+          'Revise quantitative aptitude (percentages, ratios, time-speed)',
+          'Practice logical reasoning and puzzles',
+          'Review verbal ability and comprehension',
+          'Brush up basic CS fundamentals',
+          'Prepare for situational judgment questions',
+          hasDSA ? 'Quick revision of complexity analysis' : 'Understand basic problem-solving approach'
+        ]},
+        { round: 'Round 2: DSA + Core CS', items: [
+          hasDSA ? 'Practice arrays, strings, and two pointers' : 'Learn basic data structures (array, linked list)',
+          hasDSA ? 'Revise trees, graphs, and recursion' : 'Practice simple coding problems',
+          hasDSA ? 'Solve 3-5 medium LeetCode problems' : 'Understand time and space complexity',
+          'Prepare OOP concepts (encapsulation, inheritance, polymorphism)',
+          'Revise DBMS (normalization, indexing, transactions)',
+          'Review OS (scheduling, memory management)',
+          hasData ? 'Practice SQL queries and joins' : 'Brush up basic database concepts',
+          'Prepare system design basics (scalability, load balancing)'
+        ]},
+        { round: 'Round 3: Tech Interview (Projects + Stack)', items: [
+          'Prepare 2-3 project deep-dives with architecture',
+          hasWeb ? 'Explain React/Vue component lifecycle and state' : 'Explain your tech stack choices',
+          hasData ? 'Discuss database design and optimization' : 'Discuss data handling in projects',
+          hasCloud ? 'Explain deployment and CI/CD pipeline' : 'Explain how you would deploy',
+          hasTesting ? 'Discuss testing strategy and tools' : 'Discuss how you ensure code quality',
+          'Prepare STAR format for behavioral questions',
+          'Review low-level design (design a URL shortener, etc.)'
+        ]},
+        { round: 'Round 4: Managerial / HR', items: [
+          'Prepare "Tell me about yourself" (2 min)',
+          'List 5 strengths and weaknesses with examples',
+          'Prepare questions to ask the interviewer',
+          'Review company values and culture',
+          'Practice salary negotiation basics',
+          'Prepare relocation/career goals answers'
+        ]}
+      ];
+    }
+
+    function generatePlan(skills) {
+      const hasReact = skills.web?.some(s => /react/i.test(s));
+      const hasDSA = skills.coreCS?.length;
+      const hasData = skills.data?.length;
+      const hasCloud = skills.cloudDevOps?.length;
+
+      return [
+        { day: 'Day 1–2', title: 'Basics + Core CS', desc: 'Revise OOP, DBMS, OS, Networks. Practice basics of ' + (hasDSA ? 'DSA and complexity.' : 'problem-solving.') },
+        { day: 'Day 3–4', title: 'DSA + Coding Practice', desc: (hasDSA ? 'Solve 3-5 medium problems daily. Focus on trees, graphs, DP.' : 'Practice arrays, strings, and simple logic.') + ' Time yourself.' },
+        { day: 'Day 5', title: 'Project + Resume Alignment', desc: 'Align your projects with JD. ' + (hasReact ? 'Prepare React component deep-dives and state management.' : 'Prepare project architecture and tech stack.') },
+        { day: 'Day 6', title: 'Mock Interview Questions', desc: 'Practice 10 behavioral + 10 technical. ' + (hasData ? 'Include SQL and schema design.' : '') + (hasCloud ? ' Include deployment.' : '') },
+        { day: 'Day 7', title: 'Revision + Weak Areas', desc: 'Revise weak topics. Practice 2-3 problems. Rest well.' }
+      ];
+    }
+
+    function generateQuestions(skills) {
+      const q = [];
+      const add = (cond, text) => { if (cond) q.push(text); };
+
+      add(skills.data?.length, 'Explain indexing and when it helps. What are B-trees?');
+      add(skills.web?.some(s => /react/i.test(s)), 'Explain state management options in React (useState, Context, Redux).');
+      add(skills.coreCS?.length, 'How would you optimize search in sorted data? Compare approaches.');
+      add(skills.coreCS?.length, 'Explain time complexity of common sorting algorithms.');
+      add(skills.cloudDevOps?.length, 'Explain Docker vs VMs. When would you use Kubernetes?');
+      add(skills.web?.length, 'Explain REST vs GraphQL. When to use each?');
+      add(skills.coreCS?.length, 'How would you design a rate limiter?');
+      add(skills.data?.length, 'Explain ACID properties and transaction isolation levels.');
+      add(skills.coreCS?.length, 'Explain deadlock and how to prevent it.');
+      add(skills.coreCS?.length, 'Explain caching strategies (LRU, TTL).');
+
+      add(skills.languages?.length, 'Explain pass-by-value vs pass-by-reference in your primary language.');
+      add(skills.coreCS?.length, 'Explain polymorphism and its types.');
+      add(skills.data?.length, 'How would you optimize a slow SQL query?');
+
+      const fallbacks = [
+        'Walk me through a project you built and the challenges you faced.',
+        'How do you approach debugging a production issue?',
+        'Explain scalability and how you would design for it.',
+        'What coding practices do you follow for maintainability?',
+        'How do you stay updated with technology trends?',
+        'Describe a time you had to learn something new quickly.',
+        'What tools do you use for version control and collaboration?',
+        'How would you explain a technical concept to a non-technical stakeholder?'
+      ];
+      while (q.length < 10 && fallbacks.length) q.push(fallbacks.shift());
+      return q.slice(0, 10);
+    }
+
+    function calcReadinessScore(company, role, jdText, skills) {
+      let score = 35;
+      const catCount = Math.min(
+        SKILL_CATEGORY_KEYS.filter(k => Array.isArray(skills[k]) && skills[k].length > 0).length,
+        6
+      );
+      score += catCount * 5;
+      if (company?.trim()) score += 10;
+      if (role?.trim()) score += 10;
+      if (jdText?.length > 800) score += 10;
+      return Math.min(100, score);
+    }
+
+    const ENTERPRISE_COMPANIES = ['amazon', 'google', 'microsoft', 'meta', 'apple', 'infosys', 'tcs', 'wipro', 'hcl', 'capgemini', 'accenture', 'cognizant', 'deloitte', 'ibm', 'oracle', 'sap', 'salesforce', 'adobe', 'netflix', 'uber', 'flipkart', 'swiggy', 'zomato', 'paytm', 'ola', 'byju'];
+
+    function getCompanyIntel(company, jdText, skills) {
+      if (!company?.trim()) return null;
+      const c = company.trim().toLowerCase();
+      const jd = (jdText || '').toLowerCase();
+      let sizeCategory = 'Startup (<200)';
+      if (ENTERPRISE_COMPANIES.some(e => c.includes(e) || e.includes(c.split(' ')[0]))) sizeCategory = 'Enterprise (2000+)';
+      else if (/mid|medium|scale|growth/i.test(c + ' ' + jd) || jd.includes('200') || jd.includes('500')) sizeCategory = 'Mid-size (200–2000)';
+
+      let industry = 'Technology Services';
+      if (/fintech|banking|finance|payment/i.test(jd)) industry = 'Financial Services';
+      else if (/e-?commerce|retail|marketplace/i.test(jd)) industry = 'E-commerce / Retail';
+      else if (/healthcare|health|medical|pharma/i.test(jd)) industry = 'Healthcare / Pharma';
+      else if (/edtech|education|learning/i.test(jd)) industry = 'EdTech / Education';
+
+      let hiringFocus = '';
+      if (sizeCategory.startsWith('Enterprise')) hiringFocus = 'Structured DSA rounds, core CS fundamentals, and system design. Expect multiple technical filters with standardized evaluation.';
+      else if (sizeCategory.startsWith('Mid-size')) hiringFocus = 'Balanced focus on problem-solving, stack depth, and cultural fit. Mix of algorithmic and practical questions.';
+      else hiringFocus = 'Practical problem-solving and stack depth. Expect hands-on coding, project deep-dives, and fast iteration on real scenarios.';
+
+      return { companyName: company.trim(), industry, sizeCategory, hiringFocus };
+    }
+
+    function getRoundMapping(companyIntel, skills) {
+      const hasDSA = skills.coreCS?.length || skills.languages?.length;
+      const hasWeb = skills.web?.length;
+      const hasData = skills.data?.length;
+      const isEnterprise = companyIntel?.sizeCategory?.startsWith('Enterprise');
+      const isStartup = companyIntel?.sizeCategory?.startsWith('Startup');
+      const isMid = companyIntel?.sizeCategory?.startsWith('Mid-size');
+
+      if (isEnterprise && hasDSA) {
+        return [
+          { round: 'Round 1: Online Test (DSA + Aptitude)', why: 'First filter for logical reasoning and coding ability. Timed environment tests fundamentals.' },
+          { round: 'Round 2: Technical (DSA + Core CS)', why: 'Deep dive into data structures and algorithms. Expect medium-to-hard problems.' },
+          { round: 'Round 3: Tech + Projects', why: 'System design and project discussion. Show architectural thinking.' },
+          { round: 'Round 4: HR', why: 'Culture fit, expectations, and career goals. Prepare STAR stories.' }
+        ];
+      }
+      if (isEnterprise) {
+        return [
+          { round: 'Round 1: Aptitude / Coding', why: 'Initial screening on logic and basic problem-solving.' },
+          { round: 'Round 2: Technical Interview', why: 'Core CS topics and coding. Focus on fundamentals.' },
+          { round: 'Round 3: Projects + HR', why: 'Project discussion and behavioral questions.' }
+        ];
+      }
+      if (isStartup && (hasWeb || hasData)) {
+        return [
+          { round: 'Round 1: Practical Coding', why: 'Build or debug something small. Real-world problem-solving.' },
+          { round: 'Round 2: System Discussion', why: 'Discuss architecture, trade-offs, and how you\'d solve X.' },
+          { round: 'Round 3: Culture Fit', why: 'Values, working style, and motivation. Keep it conversational.' }
+        ];
+      }
+      if (isStartup) {
+        return [
+          { round: 'Round 1: Coding + Problem Solving', why: 'Hands-on tasks. Expect practical scenarios.' },
+          { round: 'Round 2: Discussion + Fit', why: 'Project walkthrough and team alignment.' }
+        ];
+      }
+      if (isMid) {
+        return [
+          { round: 'Round 1: Online Test', why: 'Aptitude and coding. Similar to enterprise screening.' },
+          { round: 'Round 2: Technical Interview', why: 'DSA and core CS. Expect mix of theory and coding.' },
+          { round: 'Round 3: Projects + HR', why: 'Deep dive on projects and behavioral fit.' }
+        ];
+      }
+      return [
+        { round: 'Round 1: Screening', why: 'Initial assessment of skills and fit.' },
+        { round: 'Round 2: Technical', why: 'Core technical evaluation.' },
+        { round: 'Round 3: HR / Final', why: 'Culture fit and offer discussion.' }
+      ];
+    }
+
+    const JD_MIN_CHARS = 200;
+
+    function runAnalysis(e) {
+      e.preventDefault();
+      const company = document.getElementById('company').value.trim();
+      const role = document.getElementById('role').value.trim();
+      const jdText = document.getElementById('jdText').value.trim();
+      const jdWarning = document.getElementById('jdWarning');
+
+      if (!jdText) return;
+      if (jdText.length < JD_MIN_CHARS) {
+        jdWarning.style.display = 'block';
+        return;
+      }
+      jdWarning.style.display = 'none';
+
+      let skills = extractSkills(jdText);
+      const hasAny = Object.keys(skills).length > 0;
+      if (!hasAny) skills = { other: [...DEFAULT_OTHER_SKILLS] };
+      const skillsNorm = normalizeExtractedSkills(skills);
+      const skillsForGen = { ...skillsNorm, cloudDevOps: skillsNorm.cloud, _general: skillsNorm.other };
+
+      const checklist = generateChecklist(skillsForGen);
+      const plan = generatePlan(skillsForGen);
+      const questions = generateQuestions(skillsForGen);
+      const baseScore = calcReadinessScore(company, role, jdText, skillsForGen);
+      const companyIntel = getCompanyIntel(company, jdText, skillsForGen);
+      const roundMappingRaw = getRoundMapping(companyIntel, skillsForGen);
+      const roundMapping = roundMappingRaw.map(r => ({ roundTitle: r.round, focusAreas: [], whyItMatters: r.why }));
+      const plan7Days = plan.map(p => ({ day: p.day, focus: p.title, tasks: [p.desc] }));
+      const allSkills = [];
+      for (const vals of Object.values(skillsNorm)) allSkills.push(...vals);
+      const skillConfidenceMap = {};
+      allSkills.forEach(sk => { skillConfidenceMap[sk] = 'practice'; });
+      const checklistNorm = checklist.map(c => ({ roundTitle: c.round, items: c.items }));
+      const now = new Date().toISOString();
+
+      const rawId = 'jd_' + Date.now();
+      const entry = normalizeEntry({
+        id: rawId,
+        createdAt: now,
+        company,
+        role,
+        jdText,
+        extractedSkills: skillsNorm,
+        skillConfidenceMap,
+        companyIntel,
+        roundMapping,
+        checklist: checklistNorm,
+        plan7Days,
+        questions,
+        baseScore,
+        updatedAt: now
+      });
+
+      let history = [];
+      try {
+        history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      } catch (_) {}
+      if (!Array.isArray(history)) history = [];
+      history.unshift(entry);
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+      } catch (_) {}
+      sessionStorage.setItem('currentResultId', entry.id);
+      location.hash = 'results/' + entry.id;
+      renderResults(entry);
+      navigate(null, 'results');
+    }
+
+    function ensureEntryNormalized(entry) {
+      const normalized = normalizeEntry(entry);
+      if (!normalized) return null;
+      const skillsForIntel = { ...normalized.extractedSkills, cloudDevOps: normalized.extractedSkills.cloud };
+      normalized.companyIntel = normalized.companyIntel || (normalized.company ? getCompanyIntel(normalized.company, normalized.jdText, skillsForIntel) : null);
+      return normalized;
+    }
+
+    function calcFinalScore(entry) {
+      const base = entry.baseScore ?? 0;
+      const map = entry.skillConfidenceMap || {};
+      let adj = 0;
+      for (const v of Object.values(map)) adj += v === 'know' ? 2 : -2;
+      return Math.max(0, Math.min(100, base + adj));
+    }
+
+    function copyExport(type, btn) {
+      const d = window._currentExportData;
+      if (!d) { const lbl = type === 'plan' ? 'Copy 7-day plan' : type === 'checklist' ? 'Copy round checklist' : 'Copy 10 questions'; const prev = btn.textContent; btn.textContent = 'No data to copy'; setTimeout(() => { btn.textContent = lbl; }, 1500); return; }
+      const text = type === 'plan' ? d.planText : type === 'checklist' ? d.checklistText : d.questionsText;
+      navigator.clipboard.writeText(text).then(() => { btn.textContent = 'Copied!'; setTimeout(() => { btn.textContent = type === 'plan' ? 'Copy 7-day plan' : type === 'checklist' ? 'Copy round checklist' : 'Copy 10 questions'; }, 1500); });
+    }
+    function downloadTxt(btn) {
+      const d = window._currentExportData;
+      if (!d) { btn.textContent = 'No data to download'; setTimeout(() => { btn.textContent = 'Download as TXT'; }, 1500); return; }
+      const a = document.createElement('a');
+      a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(d.fullExportText);
+      a.download = 'placement-readiness.txt';
+      a.click();
+      btn.textContent = 'Downloaded!';
+      setTimeout(() => { btn.textContent = 'Download as TXT'; }, 1500);
+    }
+
+    function saveEntryToHistory(entry) {
+      let history = [];
+      try {
+        history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      } catch (_) {}
+      if (!Array.isArray(history)) history = [];
+      const idx = history.findIndex(h => h && h.id === entry.id);
+      if (idx >= 0) {
+        history[idx] = entry;
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+        } catch (_) {}
+      }
+    }
+
+    function updateSkillConfidence(entryId, skill, value) {
+      const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      const entry = history.find(h => h.id === entryId);
+      if (!entry) return;
+      const norm = ensureEntryNormalized(entry);
+      if (!norm) return;
+      norm.skillConfidenceMap[skill] = value;
+      norm.finalScore = calcFinalScore(norm);
+      norm.updatedAt = new Date().toISOString();
+      Object.assign(entry, norm);
+      saveEntryToHistory(entry);
+      const scoreEl = document.querySelector('.readiness-center');
+      const ringEl = document.querySelector('.progress-ring-fill');
+      if (scoreEl) scoreEl.textContent = entry.finalScore;
+      if (ringEl) {
+        const r = 60, circ = 2 * Math.PI * r, offset = circ * (1 - (entry.finalScore ?? entry.readinessScore ?? 0) / 100);
+        ringEl.setAttribute('stroke-dashoffset', offset);
+      }
+      const tag = document.querySelector(`.skill-tag[data-skill="${skill}"]`);
+      if (tag) {
+        tag.querySelectorAll('.skill-toggle').forEach(b => {
+          b.classList.remove('active-know', 'active-practice');
+          if (b.dataset.val === value) b.classList.add('active-' + value);
+        });
+      }
+      const weakBox = document.getElementById('actionNextWeak');
+      if (weakBox) {
+        const weak = Object.entries(entry.skillConfidenceMap).filter(([,v]) => v === 'practice').map(([k]) => k).slice(0, 3);
+        weakBox.innerHTML = weak.length ? weak.map(w => `<span class="skill-tag">${w}</span>`).join(' ') : '<span style="color:#4a6b4a">All skills marked as known.</span>';
+        const sugg = document.getElementById('actionNextSugg');
+        if (sugg) sugg.textContent = weak.length ? 'Start Day 1 plan now.' : 'You\'re ready. Focus on mock interviews.';
+      }
+    }
+
+    const DISPLAY_CATEGORY = { coreCS: 'Core CS', languages: 'Languages', web: 'Web', data: 'Data', cloud: 'Cloud/DevOps', testing: 'Testing', other: 'Other' };
+
+    function renderResults(entry) {
+      const normalized = ensureEntryNormalized(entry);
+      if (!normalized) {
+        sessionStorage.removeItem('currentResultId');
+        document.getElementById('resultsContent').innerHTML = '<div class="history-empty">One saved entry couldn\'t be loaded. Create a new analysis.</div>';
+        return;
+      }
+      entry = normalized;
+      entry.finalScore = calcFinalScore(entry);
+      const intel = entry.companyIntel;
+      const roundMap = entry.roundMapping || [];
+      const intelHtml = intel ? `
+        <div class="dash-card" style="margin-bottom: 1.5rem;">
+          <div class="dash-card-title">Company Intel</div>
+          <div style="margin-bottom: 0.75rem;"><strong>${intel.companyName}</strong></div>
+          <div style="font-size: 0.875rem; color: #5a5a7a; margin-bottom: 0.5rem;">Industry: ${intel.industry}</div>
+          <div style="font-size: 0.875rem; color: #5a5a7a; margin-bottom: 0.75rem;">Size: ${intel.sizeCategory}</div>
+          <div style="font-size: 0.85rem; color: #1a1a2e;"><strong>Typical Hiring Focus:</strong> ${intel.hiringFocus}</div>
+          <p class="demo-note">Demo Mode: Company intel generated heuristically.</p>
+        </div>
+      ` : '';
+      const roundMapHtml = roundMap.length ? `
+        <div class="dash-card" style="margin-bottom: 1.5rem;">
+          <div class="dash-card-title">Expected Round Flow</div>
+          <div class="round-timeline">
+            ${roundMap.map(r => `
+              <div class="round-timeline-item">
+                <strong>${r.roundTitle || r.round}</strong>
+                <div class="why">${r.whyItMatters || r.why || ''}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      ` : '';
+      const s = entry.extractedSkills || {};
+      const map = entry.skillConfidenceMap || {};
+      let skillsHtml = '';
+      for (const [key, vals] of Object.entries(s)) {
+        if (!Array.isArray(vals) || !vals.length) continue;
+        const catLabel = DISPLAY_CATEGORY[key] || SKILL_CATEGORIES[key]?.label || key;
+        skillsHtml += `<div class="skill-cat">${catLabel}</div><div>`;
+        vals.forEach(v => {
+          const conf = map[v] || 'practice';
+          const escaped = ('' + v).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+          const safeId = ('' + entry.id).replace(/'/g, "\\'");
+          skillsHtml += `<span class="skill-tag" data-skill="${escaped}">${v}
+            <button class="skill-toggle ${conf === 'know' ? 'active-know' : ''}" data-val="know" data-skill="${escaped}" onclick="updateSkillConfidence('${safeId}',this.dataset.skill,'know')">I know this</button>
+            <button class="skill-toggle ${conf === 'practice' ? 'active-practice' : ''}" data-val="practice" data-skill="${escaped}" onclick="updateSkillConfidence('${safeId}',this.dataset.skill,'practice')">Need practice</button>
+          </span>`;
+        });
+        skillsHtml += '</div>';
+      }
+
+      const checklistList = entry.checklist || [];
+      const checklistHtml = checklistList.map(r => `
+        <div class="dash-card" style="margin-bottom: 1rem;">
+          <div class="dash-card-title">${r.roundTitle || r.round}</div>
+          ${(r.items || []).map(i => `<div class="checklist-item">${i}</div>`).join('')}
+        </div>
+      `).join('');
+
+      const planList = entry.plan7Days || entry.plan || [];
+      const planHtml = planList.map(p => {
+        const day = p.day, focus = p.focus || p.title, tasks = Array.isArray(p.tasks) ? p.tasks : (p.desc ? [p.desc] : []);
+        return `<div class="plan-day">
+          <strong>${day}: ${focus}</strong><br>
+          <span style="color:#5a5a7a;font-size:0.9rem">${tasks.join(' ')}</span>
+        </div>`;
+      }).join('');
+
+      const questionsHtml = entry.questions.map((q, i) => `<div class="question-item">${i + 1}. ${q}</div>`).join('');
+
+      const displayScore = entry.finalScore ?? entry.readinessScore ?? 0;
+      const radius = 60;
+      const circ = 2 * Math.PI * radius;
+      const offset = circ * (1 - displayScore / 100);
+
+      const weakSkills = Object.entries(entry.skillConfidenceMap || {}).filter(([,v]) => v === 'practice').map(([k]) => k).slice(0, 3);
+
+      const planText = planList.map(p => `${p.day}: ${p.focus || p.title}\n${(p.tasks || []).join('\n')}`).join('\n\n');
+      const checklistText = checklistList.map(r => `${r.roundTitle || r.round}\n${(r.items || []).map(i => `  • ${i}`).join('\n')}`).join('\n\n');
+      const questionsText = entry.questions.map((q, i) => `${i + 1}. ${q}`).join('\n');
+      const intelExport = intel ? `\nCOMPANY INTEL\n${intel.companyName} | ${intel.industry} | ${intel.sizeCategory}\nTypical Focus: ${intel.hiringFocus}\n` : '';
+      const roundExport = roundMap.length ? `\nEXPECTED ROUND FLOW\n${roundMap.map(r => `${r.roundTitle || r.round}\n  ${r.whyItMatters || r.why || ''}`).join('\n')}\n` : '';
+      const fullExportText = `Placement Readiness - ${entry.company || 'Company'} / ${entry.role || 'Role'}\n${'='.repeat(50)}${intelExport}${roundExport}\n7-DAY PLAN\n${planText}\n\nROUND-WISE CHECKLIST\n${checklistText}\n\n10 LIKELY INTERVIEW QUESTIONS\n${questionsText}`;
+
+      window._currentExportData = { planText, checklistText, questionsText, fullExportText };
+
+      document.getElementById('resultsContent').innerHTML = `
+        <div style="margin-bottom: 1.5rem;">
+          <h2 style="margin-bottom: 0.5rem;">${entry.company || 'Company'} — ${entry.role || 'Role'}</h2>
+          <p style="color:#8b8b9e;font-size:0.875rem">${new Date(entry.createdAt).toLocaleString()}</p>
+        </div>
+
+        ${intelHtml}
+        ${roundMapHtml}
+
+        <div class="dash-grid" style="margin-bottom: 2rem;">
+          <div class="dash-card">
+            <div class="dash-card-title">Readiness Score</div>
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <div style="position:relative;width:140px;height:140px;">
+                <svg class="progress-ring" width="140" height="140" viewBox="0 0 140 140">
+                  <circle class="progress-ring-bg" cx="70" cy="70" r="${radius}" fill="none" stroke-width="10"/>
+                  <circle class="progress-ring-fill" cx="70" cy="70" r="${radius}" fill="none" stroke-width="10" stroke-dasharray="${circ}" stroke-dashoffset="${offset}"/>
+                </svg>
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                  <span class="readiness-center">${displayScore}</span>
+                  <span class="readiness-label">/ 100</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card-title">Key Skills Extracted</div>
+            ${skillsHtml}
+          </div>
+        </div>
+
+        <div class="dash-card" style="margin-bottom: 1.5rem;">
+          <div class="dash-card-title">Round-wise Preparation Checklist</div>
+          ${checklistHtml}
+        </div>
+
+        <div class="dash-card" style="margin-bottom: 1.5rem;">
+          <div class="dash-card-title">7-Day Plan</div>
+          ${planHtml}
+        </div>
+
+        <div class="dash-card" style="margin-bottom: 1.5rem;">
+          <div class="dash-card-title">10 Likely Interview Questions</div>
+          ${questionsHtml}
+        </div>
+
+        <div class="dash-card" style="margin-bottom: 1.5rem;">
+          <div class="dash-card-title">Export</div>
+          <button class="export-btn" onclick="copyExport('plan',this)">Copy 7-day plan</button>
+          <button class="export-btn" onclick="copyExport('checklist',this)">Copy round checklist</button>
+          <button class="export-btn" onclick="copyExport('questions',this)">Copy 10 questions</button>
+          <button class="export-btn" onclick="downloadTxt(this)">Download as TXT</button>
+        </div>
+
+        <div class="action-next">
+          <h4>Action Next</h4>
+          <p style="font-size:0.85rem;color:#5a5a7a;margin-bottom:0.75rem;">Focus areas: <span id="actionNextWeak">${weakSkills.length ? weakSkills.map(w => `<span class="skill-tag">${w}</span>`).join(' ') : '<span style="color:#4a6b4a">All skills marked as known.</span>'}</span></p>
+          <p id="actionNextSugg" style="font-size:0.9rem;font-weight:500;color:#1a1a2e;">Start Day 1 plan now.</p>
+        </div>
+      `;
+    }
+
+    function isValidEntry(item) {
+      try {
+        if (!item || typeof item !== 'object') return false;
+        if (!item.id || typeof item.jdText !== 'string') return false;
+        return true;
+      } catch (_) { return false; }
+    }
+
+    function loadHistory() {
+      let history;
+      try {
+        history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      } catch (_) {
+        history = [];
+      }
+      if (!Array.isArray(history)) history = [];
+      const valid = [];
+      let skipped = 0;
+      for (const item of history) {
+        if (isValidEntry(item)) valid.push(item);
+        else skipped++;
+      }
+      if (skipped > 0) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(valid));
+        } catch (_) {}
+      }
+      const container = document.getElementById('historyList');
+      let html = '';
+      if (skipped > 0) html += '<div class="validation-warning" style="margin-bottom:1rem;">One saved entry couldn\'t be loaded. Create a new analysis.</div>';
+      if (!valid.length) {
+        container.innerHTML = html + '<div class="history-empty">No analyses yet. <a href="#" onclick="navigate(event,\'analyze\')" style="color:var(--primary)">Analyze a JD</a> to get started.</div>';
+        return;
+      }
+      container.innerHTML = html + valid.map(item => {
+        const score = item.finalScore ?? item.readinessScore ?? 0;
+        const esc = (s) => ('' + (s || '')).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        return `<div class="history-item" onclick="openResult('${esc(item.id)}')">
+          <div>
+            <strong>${esc(item.company || 'Unknown')} — ${esc(item.role || 'Role')}</strong>
+            <div style="font-size:0.8rem;color:#8b8b9e;margin-top:0.25rem">${new Date(item.createdAt || 0).toLocaleString()}</div>
+          </div>
+          <span style="font-weight:700;color:var(--primary)">${score}</span>
+        </div>`;
+      }).join('');
+    }
+
+    function openResult(id) {
+      let history;
+      try {
+        history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      } catch (_) {
+        history = [];
+      }
+      const item = Array.isArray(history) ? history.find(h => h && h.id === id) : null;
+      if (!item || !isValidEntry(item)) {
+        sessionStorage.removeItem('currentResultId');
+        document.getElementById('resultsContent').innerHTML = '<div class="history-empty">One saved entry couldn\'t be loaded. Create a new analysis.</div>';
+        return;
+      }
+      sessionStorage.setItem('currentResultId', id);
+      location.hash = 'results/' + id;
+      renderResults(item);
+      navigate(null, 'results');
+    }
+
+    const HASH_TO_PAGE = {
+      '': 'dashboard', '#': 'dashboard', '#dashboard': 'dashboard', '#/dashboard': 'dashboard',
+      '#practice': 'practice', '#/practice': 'practice',
+      '#assessments': 'assessments', '#/assessments': 'assessments',
+      '#resources': 'resources', '#/resources': 'resources',
+      '#profile': 'profile', '#/profile': 'profile',
+      '#analyze': 'analyze', '#/analyze': 'analyze',
+      '#history': 'history', '#/history': 'history',
+      '#results': 'results', '#/results': 'results',
+      '#prp/07-test': 'test', '#/prp/07-test': 'test',
+      '#prp/08-ship': 'ship', '#/prp/08-ship': 'ship',
+      '#prp/proof': 'proof', '#/prp/proof': 'proof'
+    };
+
+    function handleHash() {
+      const h = (location.hash || '').replace(/^#\/?/, '#');
+      const resultsMatch = (location.hash || '').match(/^#?results\/(.+)$/);
+      if (resultsMatch) {
+        if (!document.getElementById('dashboard').classList.contains('visible')) showDashboard();
+        openResult(resultsMatch[1]);
+        return;
+      }
+      const page = HASH_TO_PAGE[h] || HASH_TO_PAGE['#' + h];
+      if (page) {
+        if (!document.getElementById('dashboard').classList.contains('visible')) showDashboard();
+        navigate(null, page);
+        return;
+      }
+    }
+    window.addEventListener('hashchange', handleHash);
+    if (location.hash) setTimeout(handleHash, 0);
+
+    function showDashboard() {
+      document.getElementById('landing').style.display = 'none';
+      document.getElementById('dashboard').classList.add('visible');
+      document.getElementById('dashboard').style.display = 'flex';
+      updateProofStatusBadge();
+    }
+
+    function getTestChecklistState() {
+      try {
+        const raw = localStorage.getItem(TEST_CHECKLIST_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (_) { return {}; }
+    }
+
+    function saveTestChecklist(state) {
+      try {
+        localStorage.setItem(TEST_CHECKLIST_KEY, JSON.stringify(state));
+      } catch (_) {}
+    }
+
+    function allTestsPassed() {
+      const state = getTestChecklistState();
+      return TEST_ITEMS.every(t => state[t.id] === true);
+    }
+
+    function toggleTestItem(id) {
+      const state = getTestChecklistState();
+      state[id] = !state[id];
+      saveTestChecklist(state);
+      renderTestChecklist();
+      if (document.getElementById('page-ship').classList.contains('active')) renderShipPage();
+      if (document.getElementById('page-proof').classList.contains('active')) renderProofPage();
+      updateProofStatusBadge();
+    }
+
+    function resetTestChecklist() {
+      saveTestChecklist({});
+      renderTestChecklist();
+      if (document.getElementById('page-ship').classList.contains('active')) renderShipPage();
+      if (document.getElementById('page-proof').classList.contains('active')) renderProofPage();
+      updateProofStatusBadge();
+    }
+
+    function getPracticeProgress() {
+      try {
+        const raw = localStorage.getItem(PRACTICE_PROGRESS_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (_) { return {}; }
+    }
+
+    function savePracticeProgress(state) {
+      try {
+        localStorage.setItem(PRACTICE_PROGRESS_KEY, JSON.stringify(state));
+      } catch (_) {}
+    }
+
+    function togglePracticeTopic(chapterId, topicId) {
+      const state = getPracticeProgress();
+      const key = chapterId + '_' + topicId;
+      state[key] = !state[key];
+      savePracticeProgress(state);
+      renderPracticePage();
+    }
+
+    let expandedChapters = {};
+
+    function expandChapter(chapterId) {
+      expandedChapters[chapterId] = !expandedChapters[chapterId];
+      renderPracticePage();
+    }
+
+    function renderPracticePage() {
+      const progress = getPracticeProgress();
+      const content = document.getElementById('practiceContent');
+      if (!content) return;
+      const grid = PRACTICE_CHAPTERS.map(ch => {
+        const completed = ch.topics.filter(t => progress[ch.id + '_' + t.id]).length;
+        const total = ch.topics.length;
+        const isExpanded = expandedChapters[ch.id];
+        const topicsHtml = ch.topics.map(t => {
+          const done = progress[ch.id + '_' + t.id];
+          return `
+            <div class="practice-topic-item ${done ? 'completed' : ''}">
+              <span>${t.name}</span>
+              <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                <input type="checkbox" class="topic-check" ${done ? 'checked' : ''} onchange="togglePracticeTopic('${ch.id}','${t.id}')">
+                <span style="font-size:0.8rem;">Done</span>
+              </label>
+            </div>
+          `;
+        }).join('');
+        return `
+          <div class="dash-card practice-chapter-card" data-chapter="${ch.id}">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+              <div>
+                <div class="dash-card-title">${ch.title}</div>
+                <p style="font-size:0.875rem;color:#6b6b80;margin-bottom:0.5rem;">${ch.desc}</p>
+                <div class="practice-progress">${completed}/${total} topics completed</div>
+              </div>
+              <button class="dash-btn" style="padding:0.5rem 1rem;font-size:0.85rem;" onclick="expandChapter('${ch.id}')">${isExpanded ? 'Hide' : 'Start'}</button>
+            </div>
+            <div class="practice-topics ${isExpanded ? 'expanded' : ''}" id="topics-${ch.id}">
+              ${topicsHtml}
+            </div>
+          </div>
+        `;
+      }).join('');
+      content.innerHTML = '<div class="dash-grid" style="grid-template-columns:1fr;">' + grid + '</div>';
+    }
+
+    let assessState = { id: null, title: '', questions: [], answers: {}, current: 0 };
+
+    function startAssessment(id) {
+      const data = ASSESSMENT_QUESTIONS[id];
+      if (!data) return;
+      assessState = { id, title: data.title, questions: data.questions, answers: {}, current: 0 };
+      document.getElementById('assessList').style.display = 'none';
+      document.getElementById('assessRunner').style.display = 'block';
+      document.getElementById('assessResult').style.display = 'none';
+      document.querySelector('#assessRunner .dash-card').style.display = 'block';
+      renderAssessmentQuestion();
+    }
+
+    function renderAssessmentQuestion() {
+      const q = assessState.questions[assessState.current];
+      const total = assessState.questions.length;
+      document.getElementById('assessTitle').textContent = assessState.title;
+      document.getElementById('assessProgress').textContent = `Question ${assessState.current + 1} of ${total}`;
+      const area = document.getElementById('assessQuestionArea');
+      const selected = assessState.answers[assessState.current];
+      area.innerHTML = `
+        <p style="font-weight:600;margin-bottom:1rem;color:#1a1a2e;">${q.q}</p>
+        <div style="display:flex;flex-direction:column;gap:0.5rem;">
+          ${q.opts.map((o, i) => `
+            <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;border-radius:0.5rem;cursor:pointer;border:1px solid ${selected === i ? 'var(--primary)' : '#e8e8f0'};background:${selected === i ? 'var(--primary-light)' : 'white'};">
+              <input type="radio" name="assessOpt" value="${i}" ${selected === i ? 'checked' : ''} onchange="assessSelect(${i})">
+              <span>${o}</span>
+            </label>
+          `).join('')}
+        </div>
+      `;
+      document.getElementById('assessPrevBtn').style.display = assessState.current === 0 ? 'none' : 'flex';
+      const isLast = assessState.current === total - 1;
+      document.getElementById('assessNextBtn').style.display = isLast ? 'none' : 'flex';
+      document.getElementById('assessSubmitBtn').style.display = isLast ? 'flex' : 'none';
+    }
+
+    function assessSelect(i) {
+      assessState.answers[assessState.current] = i;
+      renderAssessmentQuestion();
+    }
+
+    function assessPrev() {
+      if (assessState.current > 0) {
+        assessState.current--;
+        renderAssessmentQuestion();
+      }
+    }
+
+    function assessNext() {
+      if (assessState.current < assessState.questions.length - 1) {
+        assessState.current++;
+        renderAssessmentQuestion();
+      }
+    }
+
+    function assessSubmit() {
+      let correct = 0;
+      assessState.questions.forEach((q, i) => {
+        if (assessState.answers[i] === q.ans) correct++;
+      });
+      const pct = Math.round((correct / assessState.questions.length) * 100);
+      document.querySelector('#assessRunner .dash-card').style.display = 'none';
+      document.getElementById('assessResult').style.display = 'block';
+      document.getElementById('assessScoreMsg').textContent = `You scored ${correct}/${assessState.questions.length} (${pct}%).`;
+    }
+
+    function exitAssessment() {
+      document.getElementById('assessList').style.display = '';
+      document.getElementById('assessRunner').style.display = 'none';
+      document.getElementById('assessResult').style.display = 'none';
+      document.querySelector('#assessRunner .dash-card').style.display = 'block';
+    }
+
+    function getBuildStepsState() {
+      try {
+        const raw = localStorage.getItem(BUILD_STEPS_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (_) { return {}; }
+    }
+
+    function saveBuildStepsState(state) {
+      try {
+        localStorage.setItem(BUILD_STEPS_KEY, JSON.stringify(state));
+      } catch (_) {}
+    }
+
+    function getProofSubmission() {
+      try {
+        const raw = localStorage.getItem(SUBMISSION_KEY);
+        return raw ? JSON.parse(raw) : { lovableUrl: '', githubUrl: '', deployedUrl: '' };
+      } catch (_) { return { lovableUrl: '', githubUrl: '', deployedUrl: '' }; }
+    }
+
+    function saveProofSubmission(data) {
+      try {
+        localStorage.setItem(SUBMISSION_KEY, JSON.stringify(data));
+      } catch (_) {}
+    }
+
+    function validateUrl(str) {
+      if (!str || typeof str !== 'string') return false;
+      const s = str.trim();
+      if (!s) return false;
+      try {
+        new URL(s);
+        return s.startsWith('http://') || s.startsWith('https://');
+      } catch (_) { return false; }
+    }
+
+    function canShip() {
+      const steps = getBuildStepsState();
+      const testsOk = allTestsPassed();
+      const sub = getProofSubmission();
+      const linksOk = validateUrl(sub.lovableUrl) && validateUrl(sub.githubUrl) && validateUrl(sub.deployedUrl);
+      const steps1to6 = PROOF_STEPS.slice(0, 6).every(s => steps[s.id] === true);
+      const steps7to8 = testsOk;
+      return steps1to6 && steps7to8 && linksOk;
+    }
+
+    function updateProofStatusBadge() {
+      const el = document.getElementById('proofStatusBadge');
+      if (!el) return;
+      if (canShip()) {
+        el.textContent = 'Shipped';
+        el.className = 'proof-status-badge shipped';
+      } else {
+        el.textContent = 'In Progress';
+        el.className = 'proof-status-badge in-progress';
+      }
+    }
+
+    function toggleBuildStep(id) {
+      const state = getBuildStepsState();
+      state[id] = !state[id];
+      saveBuildStepsState(state);
+      renderProofPage();
+      updateProofStatusBadge();
+    }
+
+    function saveProofLink(field, value) {
+      const sub = getProofSubmission();
+      sub[field] = (value || '').trim();
+      saveProofSubmission(sub);
+      updateProofStatusBadge();
+    }
+
+    function copyFinalSubmission(btn) {
+      const sub = getProofSubmission();
+      const lovable = sub.lovableUrl || '(Not provided)';
+      const github = sub.githubUrl || '(Not provided)';
+      const deployed = sub.deployedUrl || '(Not provided)';
+      const text = `------------------------------------------
+Placement Readiness Platform — Final Submission
+
+Lovable Project: ${lovable}
+GitHub Repository: ${github}
+Live Deployment: ${deployed}
+
+Core Capabilities:
+- JD skill extraction (deterministic)
+- Round mapping engine
+- 7-day prep plan
+- Interactive readiness scoring
+- History persistence
+------------------------------------------`;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = 'Copy Final Submission'; }, 1500);
+      });
+    }
+
+    function validateAndSaveProofLink(field, input) {
+      const val = (input.value || '').trim();
+      const valid = !val || validateUrl(val);
+      saveProofLink(field, val);
+      input.classList.toggle('invalid', !valid);
+      const errEl = document.getElementById('proof' + (field === 'lovableUrl' ? 'Lovable' : field === 'githubUrl' ? 'Github' : 'Deployed') + 'Error');
+      if (errEl) errEl.style.display = valid ? 'none' : 'block';
+    }
+
+    function renderProofPage() {
+      const steps = getBuildStepsState();
+      const testsOk = allTestsPassed();
+      const sub = getProofSubmission();
+      const content = document.getElementById('proofContent');
+      if (!content) return;
+
+      const stepRows = PROOF_STEPS.map((s, i) => {
+        let done = false;
+        if (s.checkable) done = steps[s.id] === true;
+        else done = testsOk;
+        return `
+          <div class="proof-step ${done ? 'completed' : ''}">
+            <div>
+              <span style="font-weight:500;">${i + 1}. ${s.label}</span>
+            </div>
+            ${s.checkable
+              ? `<input type="checkbox" ${done ? 'checked' : ''} onchange="toggleBuildStep('${s.id}')">`
+              : `<span class="proof-step-badge ${done ? 'completed' : 'pending'}">${done ? 'Completed' : 'Pending'}</span>`
+            }
+          </div>
+        `;
+      }).join('');
+
+      const lovableValid = !sub.lovableUrl || validateUrl(sub.lovableUrl);
+      const githubValid = !sub.githubUrl || validateUrl(sub.githubUrl);
+      const deployedValid = !sub.deployedUrl || validateUrl(sub.deployedUrl);
+
+      const completionHtml = canShip() ? `
+        <div class="proof-completion-card">
+          <h3>You built a real product.<br>Not a tutorial. Not a clone.<br>A structured tool that solves a real problem.</h3>
+          <p>This is your proof of work.</p>
+        </div>
+      ` : '';
+
+      content.innerHTML = `
+        <h2 style="margin-bottom:0.5rem;">Build Proof</h2>
+        <p style="margin-bottom:1.5rem;color:#5a5a7a;">Document your build and export the final submission.</p>
+
+        ${completionHtml}
+
+        <div class="dash-card" style="margin-bottom:1.5rem;">
+          <div class="dash-card-title">Step Completion Overview</div>
+          ${stepRows}
+        </div>
+
+        <div class="dash-card" style="margin-bottom:1.5rem;">
+          <div class="dash-card-title">Artifact Inputs (Required for Ship Status)</div>
+          <div class="proof-input-group">
+            <label class="form-label">Lovable Project Link</label>
+            <input type="url" class="form-input ${lovableValid ? '' : 'invalid'}" id="proofLovable" placeholder="https://lovable.dev/..." value="${(sub.lovableUrl || '').replace(/"/g, '&quot;')}" onblur="validateAndSaveProofLink('lovableUrl', this)">
+            <div class="error" id="proofLovableError" style="display:${lovableValid ? 'none' : 'block'}">Enter a valid URL (http or https)</div>
+          </div>
+          <div class="proof-input-group">
+            <label class="form-label">GitHub Repository Link</label>
+            <input type="url" class="form-input ${githubValid ? '' : 'invalid'}" id="proofGithub" placeholder="https://github.com/..." value="${(sub.githubUrl || '').replace(/"/g, '&quot;')}" onblur="validateAndSaveProofLink('githubUrl', this)">
+            <div class="error" id="proofGithubError" style="display:${githubValid ? 'none' : 'block'}">Enter a valid URL (http or https)</div>
+          </div>
+          <div class="proof-input-group">
+            <label class="form-label">Deployed URL</label>
+            <input type="url" class="form-input ${deployedValid ? '' : 'invalid'}" id="proofDeployed" placeholder="https://..." value="${(sub.deployedUrl || '').replace(/"/g, '&quot;')}" onblur="validateAndSaveProofLink('deployedUrl', this)">
+            <div class="error" id="proofDeployedError" style="display:${deployedValid ? 'none' : 'block'}">Enter a valid URL (http or https)</div>
+          </div>
+        </div>
+
+        <div class="dash-card" style="margin-bottom:1.5rem;">
+          <div class="dash-card-title">Final Submission Export</div>
+          <button type="button" class="export-btn" onclick="copyFinalSubmission(this)">Copy Final Submission</button>
+        </div>
+      `;
+      updateProofStatusBadge();
+    }
+
+    function renderTestChecklist() {
+      const state = getTestChecklistState();
+      const passed = TEST_ITEMS.filter(t => state[t.id]).length;
+      const summaryEl = document.getElementById('testSummary');
+      const warningEl = document.getElementById('testWarning');
+      summaryEl.textContent = 'Tests Passed: ' + passed + ' / 10';
+      summaryEl.classList.toggle('warning', passed < 10);
+      summaryEl.classList.toggle('pass', passed === 10);
+      warningEl.style.display = passed < 10 ? 'block' : 'none';
+      document.getElementById('testChecklist').innerHTML = TEST_ITEMS.map(t => `
+        <div class="test-item ${state[t.id] ? 'checked' : ''}">
+          <input type="checkbox" id="test-${t.id}" ${state[t.id] ? 'checked' : ''} onchange="toggleTestItem('${t.id}')">
+          <div>
+            <div class="test-item-label">${t.label}</div>
+            <div class="test-item-hint">${t.hint}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderShipPage() {
+      const passed = allTestsPassed();
+      const content = document.getElementById('shipContent');
+      if (passed) {
+        content.innerHTML = `
+          <div class="ship-unlocked">
+            <h2 style="margin-bottom:0.5rem;color:#4a6b4a;">✓ Ready to Ship</h2>
+            <p style="color:#5a5a7a;">All 10 tests passed. You can ship with confidence.</p>
+          </div>
+        `;
+      } else {
+        const count = TEST_ITEMS.filter(t => getTestChecklistState()[t.id]).length;
+        content.innerHTML = `
+          <div class="ship-locked">
+            <h2 style="margin-bottom:0.5rem;color:#8b6914;">Locked</h2>
+            <p style="color:#5a5a7a;margin-bottom:1rem;">Complete all 10 tests on the Test page before shipping.</p>
+            <p style="font-weight:600;">${count} / 10 tests passed</p>
+            <a href="#prp/07-test" onclick="navigate(event,'test')" class="dash-btn" style="display:inline-flex;margin-top:1rem;">Go to Test</a>
+          </div>
+        `;
+      }
+    }
+
+    function navigate(e, page) {
+      if (e && e.preventDefault) e.preventDefault();
+      const hasResult = sessionStorage.getItem('currentResultId');
+      const hashMap = { dashboard: '', practice: 'practice', assessments: 'assessments', resources: 'resources', profile: 'profile', analyze: 'analyze', history: 'history', test: 'prp/07-test', ship: 'prp/08-ship', proof: 'prp/proof' };
+      if (page === 'results' && hasResult) location.hash = 'results/' + hasResult;
+      else if (hashMap[page] !== undefined) location.hash = hashMap[page];
+      const navResults = document.getElementById('navResults');
+      if (navResults) navResults.style.display = hasResult ? 'flex' : 'none';
+      document.querySelectorAll('.nav a').forEach(a => {
+        a.classList.toggle('active', a.dataset.page === page);
+      });
+      document.querySelectorAll('.page').forEach(p => {
+        p.classList.toggle('active', p.id === 'page-' + page);
+      });
+      if (page === 'history') loadHistory();
+      if (page === 'assessments') exitAssessment();
+      if (page === 'practice') renderPracticePage();
+      if (page === 'test') renderTestChecklist();
+      if (page === 'ship') renderShipPage();
+      if (page === 'proof') renderProofPage();
+      if (page === 'results') {
+        if (hasResult) {
+          let history = [];
+          try {
+            history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+          } catch (_) {}
+          const item = Array.isArray(history) ? history.find(h => h && h.id === hasResult) : null;
+          if (item && isValidEntry(item)) renderResults(item);
+          else document.getElementById('resultsContent').innerHTML = '<div class="history-empty">One saved entry couldn\'t be loaded. Create a new analysis.</div>';
+        } else {
+          document.getElementById('resultsContent').innerHTML = '<div class="history-empty">No analysis selected. <a href="#" onclick="navigate(event,\'analyze\')" style="color:var(--primary)">Analyze a JD</a> or go to <a href="#" onclick="navigate(event,\'history\')" style="color:var(--primary)">History</a>.</div>';
+        }
+      }
+    }
+  </script>
+</body>
+</html>

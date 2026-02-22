@@ -16,7 +16,7 @@ Practice, assess, and prepare for your dream job.
 
 ## Tech Stack
 
-- Vanilla HTML/CSS/JS (single-file SPA in `static/index.html`)
+- Vanilla HTML/CSS/JS (single-file SPA: `index.html` at root for Vercel, `static/index.html` for local dev)
 
 ## How to Run — Full Platform (Recommended)
 
@@ -38,6 +38,17 @@ python launch_browser.py
 
 Serves `static/` on port 8765 and opens the app in your default browser.
 
+
+## Deploy to Vercel
+
+The project includes a `vercel.json` that configures the build. To deploy:
+
+1. Push your code to GitHub
+2. Import the project in [Vercel](https://vercel.com)
+3. Vercel will use the build command and output directory automatically
+4. Deploy
+
+Or use the Vercel CLI: `vercel`
 
 ## Hash Routes (Deep Links)
 
